@@ -1,10 +1,24 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Settings, Save, Loader2, ChevronDown, Upload } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { AlertCircle, Settings, Save, Loader2, ChevronDown, Upload, LogOut } from 'lucide-react';
 import type { BusinessConfig } from '../types';
 import { fetchBusinessConfig, saveBusinessConfig, getDefaultBusinessConfig } from '../utils/businessConfigManager';
+
+// Admin Component Managers
+import NavigationCustomizer from '../components/admin/NavigationCustomizer';
+import CarouselManager from '../components/admin/CarouselManager';
+import FooterManager from '../components/admin/FooterManager';
+import MarqueeManager from '../components/admin/MarqueeManager';
+import SectionManager from '../components/admin/SectionManager';
+import CardDesignManager from '../components/admin/CardDesignManager';
+import VideoSectionManager from '../components/admin/VideoSectionManager';
+import BannerSocialManager from '../components/admin/BannerSocialManager';
+import CouponManager from '../components/admin/CouponManager';
+import ShippingManager from '../components/admin/ShippingManager';
+import TaxManager from '../components/admin/TaxManager';
+import PublishManager from '../components/admin/PublishManager';
+import OrderChannelManager from '../components/admin/OrderChannelManager';
 
 export default function ChangeBusiness() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
@@ -19,7 +33,7 @@ export default function ChangeBusiness() {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [publishing, setPublishing] = useState(false);
   const [publishStatus, setPublishStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [activeTab, setActiveTab] = useState<'general' | 'branding' | 'seo' | 'policies' | 'theme'>('general');
+  const [activeTab, setActiveTab] = useState<'business' | 'navigation' | 'hero' | 'carousel' | 'sections' | 'footer' | 'marquee' | 'card-design' | 'video-sections' | 'banner' | 'coupons' | 'shipping' | 'tax' | 'orders' | 'publish'>('business');
 
   useEffect(() => {
     const savedAuth = localStorage.getItem('adminAuthenticated');
@@ -243,27 +257,44 @@ export default function ChangeBusiness() {
           </div>
         )}
 
-        <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v)} className="w-full">
-          <TabsList className="grid grid-cols-5 gap-2 bg-slate-800/50 border border-slate-700 p-2 rounded-lg mb-6">
-            <TabsTrigger value="general" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
-              General
-            </TabsTrigger>
-            <TabsTrigger value="branding" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
-              Branding
-            </TabsTrigger>
-            <TabsTrigger value="seo" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
-              SEO
-            </TabsTrigger>
-            <TabsTrigger value="policies" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
-              Policies
-            </TabsTrigger>
-            <TabsTrigger value="theme" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
-              Theme
-            </TabsTrigger>
-          </TabsList>
+        {/* Horizontal Tab Navigation */}
+        <div className="border-b border-slate-700 mb-8 overflow-x-auto">
+          <div className="flex gap-1 flex-nowrap pb-4">
+            {[
+              { id: 'business', label: '🏢 Business' },
+              { id: 'navigation', label: '📱 Navigation' },
+              { id: 'hero', label: '✨ Hero' },
+              { id: 'carousel', label: '🎠 Carousel' },
+              { id: 'sections', label: '📦 Sections' },
+              { id: 'footer', label: '👣 Footer' },
+              { id: 'marquee', label: '📢 Marquee' },
+              { id: 'card-design', label: '🎨 Card Design' },
+              { id: 'video-sections', label: '🎬 Videos' },
+              { id: 'banner', label: '📣 Banner' },
+              { id: 'coupons', label: '🎟️ Coupons' },
+              { id: 'shipping', label: '📦 Shipping' },
+              { id: 'tax', label: '💰 Tax' },
+              { id: 'orders', label: '🛒 Orders' },
+              { id: 'publish', label: '🚀 Publish' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-4 py-2 whitespace-nowrap font-medium rounded-lg transition-colors ${
+                  activeTab === tab.id
+                    ? 'bg-cyan-600 text-white border-b-2 border-cyan-400'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {/* General Tab */}
-          <TabsContent value="general" className="space-y-6">
+        {/* Business Configuration Tab */}
+        {activeTab === 'business' && (
+          <div className="space-y-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">Business Information</h3>
               
@@ -372,10 +403,12 @@ export default function ChangeBusiness() {
                 </div>
               </div>
             </div>
-          </TabsContent>
+          </div>
+        )}
 
-          {/* Branding Tab */}
-          <TabsContent value="branding" className="space-y-6">
+        {/* Navigation Tab */}
+        {activeTab === 'navigation' && (
+          <div>
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">Color Configuration</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -433,92 +466,50 @@ export default function ChangeBusiness() {
               </div>
               <p className="text-slate-400 text-sm">These colors will be applied throughout your website for consistent branding.</p>
             </div>
-          </TabsContent>
-
-          {/* SEO Tab */}
-          <TabsContent value="seo" className="space-y-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
-              <h3 className="text-lg font-semibold text-cyan-400">Search Engine Optimization</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Meta Title (55-60 chars)</label>
-                  <input
-                    type="text"
-                    maxLength={60}
-                    value={businessConfig.seo_meta_title}
-                    onChange={(e) => handleConfigChange('seo_meta_title', e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
-                    placeholder="Your page title"
-                  />
-                  <p className="text-slate-400 text-xs mt-1">{businessConfig.seo_meta_title.length}/60 characters</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Meta Description (150-160 chars)</label>
-                  <textarea
-                    maxLength={160}
-                    value={businessConfig.seo_meta_description}
-                    onChange={(e) => handleConfigChange('seo_meta_description', e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400 resize-none h-20"
-                    placeholder="Your page description"
-                  />
-                  <p className="text-slate-400 text-xs mt-1">{businessConfig.seo_meta_description.length}/160 characters</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">OG Image URL</label>
-                  <input
-                    type="url"
-                    value={businessConfig.seo_og_image}
-                    onChange={(e) => handleConfigChange('seo_og_image', e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
-                    placeholder="https://..."
-                  />
-                </div>
+              <h3 className="text-lg font-semibold text-cyan-400">SEO Configuration</h3>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Meta Title</label>
+                <input
+                  type="text"
+                  value={businessConfig.seo_meta_title}
+                  onChange={(e) => handleConfigChange('seo_meta_title', e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Meta Description</label>
+                <textarea
+                  value={businessConfig.seo_meta_description}
+                  onChange={(e) => handleConfigChange('seo_meta_description', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                />
               </div>
             </div>
-          </TabsContent>
-
-          {/* Policies Tab */}
-          <TabsContent value="policies" className="space-y-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
-              <h3 className="text-lg font-semibold text-cyan-400">Business Policies</h3>
-              
+              <h3 className="text-lg font-semibold text-cyan-400">Policy Management</h3>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Terms of Service</label>
                 <textarea
                   value={businessConfig.terms_of_service}
                   onChange={(e) => handleConfigChange('terms_of_service', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400 resize-none h-32 font-mono text-sm"
-                  placeholder="Enter your terms of service..."
+                  rows={4}
+                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
                 />
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Return Policy</label>
                 <textarea
                   value={businessConfig.return_policy}
                   onChange={(e) => handleConfigChange('return_policy', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400 resize-none h-32 font-mono text-sm"
-                  placeholder="Enter your return policy..."
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Warranty Information</label>
-                <textarea
-                  value={businessConfig.warranty_information}
-                  onChange={(e) => handleConfigChange('warranty_information', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400 resize-none h-32 font-mono text-sm"
-                  placeholder="Enter warranty information..."
+                  rows={4}
+                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
                 />
               </div>
             </div>
-          </TabsContent>
-
-          {/* Theme Tab */}
-          <TabsContent value="theme" className="space-y-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">Theme Settings</h3>
-              
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Font Family</label>
                 <select
@@ -526,51 +517,68 @@ export default function ChangeBusiness() {
                   onChange={(e) => handleConfigChange('theme_font_family', e.target.value)}
                   className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 focus:outline-none focus:border-cyan-400"
                 >
-                  <option value="system-ui">System UI (Default)</option>
-                  <option value="sans-serif">Sans Serif</option>
-                  <option value="serif">Serif</option>
-                  <option value="monospace">Monospace</option>
+                  <option>sans-serif</option>
+                  <option>serif</option>
+                  <option>monospace</option>
                 </select>
               </div>
-
-              <div className="space-y-3">
-                <h4 className="text-sm font-medium text-slate-300">Color Scheme</h4>
-                <select
-                  value={businessConfig.theme_color_scheme}
-                  onChange={(e) => handleConfigChange('theme_color_scheme', e.target.value as any)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 focus:outline-none focus:border-cyan-400"
-                >
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
-                  <option value="auto">Auto (System)</option>
-                </select>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="text-sm font-medium text-slate-300">Button Style</h4>
-                <select
-                  value={businessConfig.theme_button_style}
-                  onChange={(e) => handleConfigChange('theme_button_style', e.target.value as any)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 focus:outline-none focus:border-cyan-400"
-                >
-                  <option value="rounded">Rounded</option>
-                  <option value="square">Square</option>
-                </select>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 bg-slate-700/50 rounded-lg">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="darkMode"
                   checked={businessConfig.theme_dark_mode_enabled}
                   onChange={(e) => handleConfigChange('theme_dark_mode_enabled', e.target.checked)}
-                  className="w-4 h-4 rounded accent-cyan-400"
+                  className="w-4 h-4 rounded cursor-pointer"
                 />
-                <label htmlFor="darkMode" className="text-sm text-slate-300">Enable Dark Mode</label>
+                <label htmlFor="darkMode" className="text-slate-300 cursor-pointer">
+                  Enable Dark Mode
+                </label>
               </div>
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
+
+        {/* Navigation Tab */}
+        {activeTab === 'navigation' && <NavigationCustomizer />}
+
+        {/* Hero/Banner Tab */}
+        {activeTab === 'hero' && <BannerSocialManager />}
+
+        {/* Carousel Tab */}
+        {activeTab === 'carousel' && <CarouselManager />}
+
+        {/* Sections Tab */}
+        {activeTab === 'sections' && <SectionManager />}
+
+        {/* Footer Tab */}
+        {activeTab === 'footer' && <FooterManager />}
+
+        {/* Marquee Tab */}
+        {activeTab === 'marquee' && <MarqueeManager />}
+
+        {/* Card Design Tab */}
+        {activeTab === 'card-design' && <CardDesignManager />}
+
+        {/* Video Sections Tab */}
+        {activeTab === 'video-sections' && <VideoSectionManager />}
+
+        {/* Banner Tab */}
+        {activeTab === 'banner' && <BannerSocialManager />}
+
+        {/* Coupons Tab */}
+        {activeTab === 'coupons' && <CouponManager />}
+
+        {/* Shipping Tab */}
+        {activeTab === 'shipping' && <ShippingManager />}
+
+        {/* Tax Tab */}
+        {activeTab === 'tax' && <TaxManager />}
+
+        {/* Orders Tab */}
+        {activeTab === 'orders' && <OrderChannelManager />}
+
+        {/* Publish Tab */}
+        {activeTab === 'publish' && <PublishManager />}
 
         {/* Action Buttons */}
         <div className="fixed bottom-8 right-8 flex flex-col-reverse sm:flex-row gap-3">

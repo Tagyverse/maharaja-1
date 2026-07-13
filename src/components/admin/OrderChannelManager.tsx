@@ -459,16 +459,16 @@ export default function OrderChannelManager() {
                 {orders.slice(0, 10).map((order) => (
                   <tr key={order.id} className="border-b border-slate-700 hover:bg-slate-700/30">
                     <td className="py-2 px-2 text-slate-300 font-mono text-xs">{order.id.substring(0, 8)}</td>
-                    <td className="py-2 px-2 text-slate-300">{order.customer_name}</td>
-                    <td className="py-2 px-2 text-slate-300">${order.amount.toFixed(2)}</td>
+                    <td className="py-2 px-2 text-slate-300">{order.customer_name || 'N/A'}</td>
+                    <td className="py-2 px-2 text-slate-300">${(typeof order.amount === 'number' ? order.amount : 0).toFixed(2)}</td>
                     <td className="py-2 px-2">
                       <span className="px-2 py-1 rounded-full text-xs bg-slate-700 text-slate-200 capitalize">
-                        {order.channel}
+                        {order.channel || 'web'}
                       </span>
                     </td>
                     <td className="py-2 px-2">
                       <select
-                        value={order.status}
+                        value={order.status || 'pending'}
                         onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
                         className="px-2 py-1 rounded text-xs bg-slate-700 border border-slate-600 text-slate-300 focus:outline-none focus:border-cyan-400"
                       >

@@ -2,12 +2,20 @@
 
 ## Overview
 
-This document describes the complete admin workflow for managing your entire business and orders:
+This document describes the complete admin workflow for managing your **entire website** and orders:
 
-1. **Business Configuration Portal** (`/changebusiness`) - Manage all business settings, branding, policies, and SEO
-2. **Publish to Production** - Push changes to R2 CDN for live updates
-3. **Dynamic Branding System** - Entire app updates automatically based on business config
-4. **Order Channels Management** - Configure WhatsApp and Telegram for order notifications
+1. **Full Website Editor** (`/changebusiness`) - Unified editor to manage ALL website sections:
+   - Business configuration, branding, SEO, policies
+   - Navigation, hero section, carousel, footer
+   - Sections, cards design, video sections, banners
+   - Coupons, shipping, tax, order channels
+   - All website editing in one location!
+   
+2. **Publish to Production** - Push ALL changes to R2 CDN for live updates
+
+3. **Dynamic Branding System** - Entire app updates automatically based on config
+
+4. **Order Management** - Configure WhatsApp and Telegram for order notifications
 
 ## Admin Workflow: Save → Publish → Live
 
@@ -41,9 +49,33 @@ Navigate to `http://yoursite.com/changebusiness` in your browser. You'll be prom
 - Admin ID: Use the same credentials as your admin panel (from environment variables `VITE_ADMIN_ID` and `VITE_ADMIN_PASSWORD`)
 - Session persists in localStorage for convenience
 
+### All Available Editing Tabs
+
+The `/changebusiness` editor has 15 major sections, all in one place:
+
+| Tab | Purpose |
+|-----|---------|
+| 🏢 **Business** | Company info, colors, SEO, policies, theme settings |
+| 📱 **Navigation** | Edit header menu items, structure, links |
+| ✨ **Hero** | Hero section, banner, social links |
+| 🎠 **Carousel** | Image carousel, slides, animations |
+| 📦 **Sections** | Custom content sections, layouts |
+| 👣 **Footer** | Footer content, links, information |
+| 📢 **Marquee** | Scrolling announcements, promotions |
+| 🎨 **Card Design** | Product card styling, appearance |
+| 🎬 **Videos** | Video sections, overlays, layouts |
+| 📣 **Banner** | Promotional banners, social integration |
+| 🎟️ **Coupons** | Discount codes, offers management |
+| 📦 **Shipping** | Shipping settings, rates, policies |
+| 💰 **Tax** | Tax configuration, rates |
+| 🛒 **Orders** | WhatsApp/Telegram channel setup, order management |
+| 🚀 **Publish** | Publish all changes to production |
+
+---
+
 ### Configuration Sections
 
-#### A. General Tab - Business Information
+#### A. Business Tab - Business Information
 
 **Company Details:**
 - **Company Name**: Your business's primary name
@@ -59,7 +91,61 @@ Navigate to `http://yoursite.com/changebusiness` in your browser. You'll be prom
 - Street address, city, state/province, country, ZIP code
 - This information appears in your policies and checkout
 
-#### B. Branding Tab - Color Customization
+#### B. Website Section Managers
+
+**Navigation Customizer** (📱 Tab)
+- Edit header menu items and structure
+- Customize navigation bar appearance
+- Add/remove menu links
+
+**Carousel Manager** (🎠 Tab)
+- Manage image carousel on homepage
+- Upload carousel images
+- Set carousel timing and animations
+
+**Footer Manager** (👣 Tab)
+- Edit footer content and links
+- Configure footer sections
+- Add social media links
+
+**Section Manager** (📦 Tab)
+- Create and edit custom content sections
+- Manage text, images, layouts
+- Organize section order
+
+**Card Design Manager** (🎨 Tab)
+- Customize product card appearance
+- Edit card styling and layout
+- Configure product display
+
+**Coupon Manager** (🎟️ Tab)
+- Create discount codes
+- Set coupon rules and restrictions
+- Manage active promotions
+
+**Shipping Manager** (📦 Tab)
+- Configure shipping rates
+- Set shipping policies
+- Manage delivery options
+
+**Tax Manager** (💰 Tab)
+- Set tax rates by region
+- Configure tax rules
+- Manage tax calculations
+
+**Order Channel Manager** (🛒 Tab)
+- Configure WhatsApp integration for orders
+- Setup Telegram bot for notifications
+- Test and manage order channels
+
+**Publish Manager** (🚀 Tab)
+- Publish all changes to production
+- View publish history
+- Rollback if needed
+
+---
+
+#### C. Branding Tab - Color Customization
 
 **Color Configuration:**
 - **Primary Color**: Main brand color (e.g., cyan: `#06b6d4`)
