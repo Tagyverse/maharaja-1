@@ -23,9 +23,14 @@ export default function ClientCopy() {
 
   useEffect(() => {
     // Extract client ID from user or URL
+    console.log('[v0] ClientCopy useEffect - user:', user?.email);
     if (user?.email) {
       const id = user.email.split('@')[0];
+      console.log('[v0] ClientCopy setting clientId:', id);
       setClientId(id);
+      setLoading(false);
+    } else {
+      console.log('[v0] ClientCopy - no user email found');
       setLoading(false);
     }
   }, [user]);
@@ -38,10 +43,25 @@ export default function ClientCopy() {
     }, 3000);
   }, []);
 
-  if (loading) {
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-50 flex items-center justify-center">
+        <div className="max-w-md text-center">
+          <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold mb-2">Authentication Required</h2>
+          <p className="text-slate-400">You must be logged in to access the Client Setup page.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading || !clientId) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="w-12 h-12 border-3 border-slate-700 border-t-cyan-400 rounded-full animate-spin"></div>
+        <div className="space-y-3 text-center">
+          <div className="w-12 h-12 border-3 border-slate-700 border-t-cyan-400 rounded-full animate-spin mx-auto"></div>
+          <p className="text-slate-400">Loading setup...</p>
+        </div>
       </div>
     );
   }
