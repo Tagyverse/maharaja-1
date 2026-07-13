@@ -36,7 +36,7 @@ export const brand = {
   "cloudflare": {
     "projectName": "srimaharaja",
     "r2BucketName": "srimaharaja-images",
-    "r2BucketUrl": "https://srimaharaja-images.r2.dev"
+    "r2BucketUrl": "https://pub-c56d42bc841f4d4d8d22e889c400dbe9.r2.dev"
   },
   "razorpay": {
     "themeColor": "#dc2626"
