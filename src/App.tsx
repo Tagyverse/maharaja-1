@@ -26,11 +26,8 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ComingSoon from './pages/ComingSoon';
 import { useFeatureFlags } from './hooks/useFeatureFlags';
-// Lazy load heavy admin pages for better initial load performance
-const Admin = lazy(() => import('./pages/Admin'));
+// Lazy load heavy pages for better initial load performance
 const Checkout = lazy(() => import('./pages/Checkout'));
-const SuperAdmin = lazy(() => import('./pages/SuperAdmin'));
-const ClientCopy = lazy(() => import('./pages/ClientCopy'));
 const Contact = lazy(() => import('./pages/Contact'));
 import type { Product } from './types';
 import { db } from './lib/firebase';
@@ -41,7 +38,7 @@ import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 import { AppInitializer } from './components/AppInitializer';
 
-type Page = 'home' | 'shop' | 'admin' | 'checkout' | 'superadmin' | 'clientcopy' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
+type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -86,9 +83,6 @@ class ErrorBoundary extends Component<
 
 function getInitialPage(): Page {
   const path = window.location.pathname;
-  if (path === '/admin') return 'admin';
-  if (path.startsWith('/superadmin')) return 'superadmin';
-  if (path === '/clientcopy') return 'clientcopy';
   if (path === '/shop') return 'shop';
   if (path === '/checkout') return 'checkout';
   if (path === '/privacy-policy') return 'privacy-policy';
@@ -139,8 +133,8 @@ function AppContentInner() {
     setPrevUser(user);
   }, [user]);
 
-  const hideNavigation = currentPage === 'admin' || currentPage === 'checkout' || currentPage === 'superadmin' || currentPage === 'clientcopy' || currentPage === 'contact';
-  const isAdminPage = currentPage === 'admin' || currentPage === 'superadmin' || currentPage === 'clientcopy';
+  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact';
+  const isAdminPage = false;
 
   useEffect(() => {
     // Enable smooth scrolling
@@ -280,24 +274,6 @@ function AppContentInner() {
         return <Home onNavigate={handleNavigate} onCartClick={() => setCartModalOpen(true)} onProductClick={handleProductClick} />;
       case 'shop':
         return <Shop onCartClick={() => setCartModalOpen(true)} onProductClick={handleProductClick} />;
-      case 'admin':
-        return (
-          <Suspense fallback={<LoadingFallback />}>
-            <Admin />
-          </Suspense>
-        );
-      case 'superadmin':
-        return (
-          <Suspense fallback={<LoadingFallback />}>
-            <SuperAdmin />
-          </Suspense>
-        );
-      case 'clientcopy':
-        return (
-          <Suspense fallback={<LoadingFallback />}>
-            <ClientCopy />
-          </Suspense>
-        );
       case 'checkout':
         return (
           <Suspense fallback={<LoadingFallback />}>
