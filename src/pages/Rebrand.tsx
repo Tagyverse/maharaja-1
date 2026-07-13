@@ -107,7 +107,7 @@ export default function Rebrand() {
     setError('');
 
     // Get password from environment or use default
-    const correctPassword = process.env.REACT_APP_REBRAND_PASSWORD || process.env.VITE_REBRAND_PASSWORD || 'rebrand@2024';
+    const correctPassword = import.meta.env.VITE_REBRAND_PASSWORD || 'rebrand@2024';
 
     if (inputPassword === correctPassword) {
       setIsAuthenticated(true);
