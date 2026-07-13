@@ -244,10 +244,13 @@ export default function PublishManager({ onPublishComplete }: { onPublishComplet
         verifyTime: result.verifyTime,
       });
 
+      const mergeInfo = result.mergedWithExisting ? ' (merged with existing data - previous pushes preserved)' : '';
+      const updatedSections = result.updatedSections ? ` Updated sections: ${result.updatedSections.join(', ')}` : '';
+
       setPublishStatus({
         status: 'success',
-        message: 'Successfully published to live!',
-        details: `${productCount} products, ${categoryCount} categories, ${(totalSize / 1024).toFixed(2)}KB uploaded`,
+        message: `Successfully published to live!${mergeInfo}`,
+        details: `${productCount} products, ${categoryCount} categories, ${(totalSize / 1024).toFixed(2)}KB uploaded${updatedSections}`,
         dataStats: {
           productCount,
           categoryCount,
