@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { PublishedDataProvider, usePublishedData } from './contexts/PublishedDataContext';
+import { ClientConfigProvider } from './contexts/ClientConfigContext';
 import TopBanner from './components/TopBanner';
 import Navigation from './components/Navigation';
 import LoginModal from './components/LoginModal';
@@ -38,6 +39,7 @@ import { initAnalytics, trackPageView } from './utils/analytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
+import { AppInitializer } from './components/AppInitializer';
 
 type Page = 'home' | 'shop' | 'admin' | 'checkout' | 'superadmin' | 'clientcopy' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
 
@@ -97,6 +99,16 @@ function getInitialPage(): Page {
 }
 
 function AppContent() {
+  // Initialize client config and theme from R2 on app startup
+  return (
+    <>
+      <AppInitializer />
+      <AppContentInner />
+    </>
+  );
+}
+
+function AppContentInner() {
   const { data: publishedData, loading: publishedDataLoading, error: publishedDataError } = usePublishedData();
   const flags = useFeatureFlags();
   const [currentPage, setCurrentPage] = useState<Page>(getInitialPage());
@@ -465,15 +477,17 @@ function AppContent() {
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <PublishedDataProvider>
-          <CartProvider>
-            <FavoritesProvider>
-              <AppContent />
-            </FavoritesProvider>
-          </CartProvider>
-        </PublishedDataProvider>
-      </AuthProvider>
+      <ClientConfigProvider>
+        <AuthProvider>
+          <PublishedDataProvider>
+            <CartProvider>
+              <FavoritesProvider>
+                <AppContent />
+              </FavoritesProvider>
+            </CartProvider>
+          </PublishedDataProvider>
+        </AuthProvider>
+      </ClientConfigProvider>
     </ErrorBoundary>
   );
 }

@@ -18,8 +18,11 @@ export default function DataPublish({ clientId, showToast }: DataPublishProps) {
   const [downloading, setDownloading] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
+  const [infrastructure, setInfrastructure] = useState<any>(null);
   const [readiness, setReadiness] = useState({
     rebrand: false,
+    infrastructure: false,
+    orderFlow: false,
     payment: false,
     whatsapp: false,
     telegram: false,
@@ -41,10 +44,12 @@ export default function DataPublish({ clientId, showToast }: DataPublishProps) {
         setTelegramConfig(telegram);
 
         setReadiness({
-          rebrand: !!rebrand?.status === 'complete',
-          payment: !!payment?.primaryGateway,
-          whatsapp: !!whatsapp?.businessNumber,
-          telegram: !!telegram?.botToken && !!telegram?.chatId,
+          rebrand: rebrand?.status === 'complete',
+          infrastructure: rebrand?.orderFlowMode ? true : false,
+          orderFlow: rebrand?.orderFlowMode ? true : false,
+          payment: payment?.primaryGateway ? true : false,
+          whatsapp: whatsapp?.businessNumber ? true : false,
+          telegram: telegram?.botToken && telegram?.chatId ? true : false,
         });
 
         setLoading(false);

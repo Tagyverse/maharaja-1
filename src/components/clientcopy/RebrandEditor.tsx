@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Paintbrush, Save, Eye, EyeOff, RotateCcw, Loader2, Check } from 'lucide-react';
+import { Paintbrush, Save, Eye, EyeOff, RotateCcw, Loader2, Check, Smartphone } from 'lucide-react';
 import { getRebrandConfig, saveRebrandConfig, RebrandConfig } from '../../utils/clientCopyFirebase';
 import Button from '../ui/button';
+import { OrderFlowMode } from '../../contexts/ClientConfigContext';
 
 interface RebrandEditorProps {
   clientId: string;
@@ -30,6 +31,7 @@ const defaultConfig: RebrandConfig = {
   ],
   termsAndConditions: 'Enter your terms and conditions here...',
   visibleSections: ['hero', 'products', 'reviews', 'newsletter', 'footer'],
+  orderFlowMode: 'payment' as OrderFlowMode,
   status: 'incomplete',
   lastUpdated: new Date().toISOString(),
 };
@@ -243,6 +245,51 @@ export function RebrandEditor_Component({ clientId, showToast }: RebrandEditorPr
                     className="w-4 h-4 rounded border-slate-600 text-cyan-500 cursor-pointer"
                   />
                   <span className="flex-1 text-slate-300 capitalize">{section}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Order Flow Mode */}
+          <div className="bg-slate-800/60 rounded-xl border border-slate-700 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <Smartphone className="w-5 h-5 text-purple-400" />
+              Order Flow Mode
+            </h3>
+            <p className="text-sm text-slate-400 mb-4">Choose how customers place orders on your store</p>
+            
+            <div className="space-y-3">
+              {[
+                { value: 'whatsapp-only' as OrderFlowMode, label: 'WhatsApp Only', desc: 'Customers send orders via WhatsApp (no payment)' },
+                { value: 'telegram-only' as OrderFlowMode, label: 'Quick Form', desc: 'Simple form submission, you notify via Telegram' },
+                { value: 'payment' as OrderFlowMode, label: 'Full Payment', desc: 'Complete checkout with payment processing' },
+              ].map(option => (
+                <div
+                  key={option.value}
+                  onClick={() => setConfig({ ...config, orderFlowMode: option.value })}
+                  className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                    config.orderFlowMode === option.value
+                      ? 'border-cyan-400 bg-cyan-400/10'
+                      : 'border-slate-600 bg-slate-700/30 hover:border-slate-500'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                        config.orderFlowMode === option.value
+                          ? 'border-cyan-400 bg-cyan-400'
+                          : 'border-slate-500'
+                      }`}
+                    >
+                      {config.orderFlowMode === option.value && (
+                        <Check className="w-2 h-2 text-slate-900" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-100">{option.label}</p>
+                      <p className="text-xs text-slate-400">{option.desc}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

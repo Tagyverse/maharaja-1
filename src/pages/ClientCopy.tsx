@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { AlertCircle, Settings, CreditCard, MessageSquare, Send, Package, FileDown } from 'lucide-react';
+import { AlertCircle, Settings, CreditCard, MessageSquare, Send, Package, FileDown, Cpu } from 'lucide-react';
 import RebrandEditor from '../components/clientcopy/RebrandEditor';
 import PaymentConfig from '../components/clientcopy/PaymentConfig';
 import WhatsAppConfig from '../components/clientcopy/WhatsAppConfig';
 import TelegramConfig from '../components/clientcopy/TelegramConfig';
+import FirebaseCloudflareConfig from '../components/clientcopy/FirebaseCloudflareConfig';
 import DataPublish from '../components/clientcopy/DataPublish';
 import OrdersManager from '../components/clientcopy/OrdersManager';
 
@@ -90,10 +91,15 @@ export default function ClientCopy() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="rebrand" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-8 bg-slate-800 border border-slate-700">
+          <TabsList className="grid w-full grid-cols-7 mb-8 bg-slate-800 border border-slate-700">
             <TabsTrigger value="rebrand" className="data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-400">
               <span className="hidden sm:inline">Rebrand</span>
               <span className="sm:hidden">Brand</span>
+            </TabsTrigger>
+            <TabsTrigger value="infrastructure" className="data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-400">
+              <Cpu className="w-4 h-4 sm:mr-1" />
+              <span className="hidden sm:inline">Infrastructure</span>
+              <span className="sm:hidden">Infra</span>
             </TabsTrigger>
             <TabsTrigger value="payment" className="data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-400">
               <span className="hidden sm:inline">Payment</span>
@@ -124,6 +130,15 @@ export default function ClientCopy() {
               <p className="text-sm text-blue-300">Complete all rebrand settings before publishing. Your homepage will remain unavailable until rebrand is published.</p>
             </div>
             <RebrandEditor clientId={clientId} showToast={showToast} />
+          </TabsContent>
+
+          {/* Infrastructure Tab */}
+          <TabsContent value="infrastructure" className="space-y-4">
+            <div className="bg-orange-500/5 border border-orange-500/20 rounded-lg p-4 flex gap-3">
+              <AlertCircle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-orange-300">Configure your Firebase and Cloudflare credentials. Your store configuration will be published to Cloudflare R2 for fast global delivery.</p>
+            </div>
+            <FirebaseCloudflareConfig clientId={clientId} showToast={showToast} />
           </TabsContent>
 
           {/* Payment Tab */}
