@@ -8,6 +8,11 @@
   --brand-dark-rgb: 153 27 27;
   --brand-soft-rgb: 252 233 233;
   --brand-accent-rgb: 245 158 11;
+  
+  /* Business branding colors - dynamically set by app */
+  --primary-color: #06b6d4;
+  --secondary-color: #0f172a;
+  --accent-color: #06b6d4;
 }
 
 @layer base {

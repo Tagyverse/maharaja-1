@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Settings, Save, Loader2, ChevronDown } from 'lucide-react';
+import { AlertCircle, Settings, Save, Loader2, ChevronDown, Upload } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import type { BusinessConfig } from '../types';
 import { fetchBusinessConfig, saveBusinessConfig, getDefaultBusinessConfig } from '../utils/businessConfigManager';
@@ -17,6 +17,8 @@ export default function ChangeBusiness() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [publishing, setPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [activeTab, setActiveTab] = useState<'general' | 'branding' | 'seo' | 'policies' | 'theme'>('general');
 
   useEffect(() => {
@@ -87,6 +89,48 @@ export default function ChangeBusiness() {
       setTimeout(() => setSaveStatus('idle'), 3000);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePublishConfig = async () => {
+    if (!confirm('Are you sure you want to publish business config to production? Users will see this branding immediately.')) {
+      return;
+    }
+    
+    setPublishing(true);
+    setPublishStatus('idle');
+    try {
+      const response = await fetch('/api/publish-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: {
+            business_config: businessConfig,
+            published_at: new Date().toISOString()
+          }
+        })
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setPublishStatus('success');
+        setTimeout(() => setPublishStatus('idle'), 3000);
+        
+        // Refresh the app after publishing
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        console.error('Publish error:', result);
+        setPublishStatus('error');
+        setTimeout(() => setPublishStatus('idle'), 3000);
+      }
+    } catch (error) {
+      console.error('Error publishing config:', error);
+      setPublishStatus('error');
+      setTimeout(() => setPublishStatus('idle'), 3000);
+    } finally {
+      setPublishing(false);
     }
   };
 
@@ -528,12 +572,34 @@ export default function ChangeBusiness() {
           </TabsContent>
         </Tabs>
 
-        {/* Save Button */}
-        <div className="fixed bottom-8 right-8">
+        {/* Action Buttons */}
+        <div className="fixed bottom-8 right-8 flex flex-col-reverse sm:flex-row gap-3">
+          {/* Publish Button */}
+          <button
+            onClick={handlePublishConfig}
+            disabled={publishing}
+            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-green-500 hover:bg-green-600 disabled:bg-green-500/50 disabled:cursor-not-allowed text-slate-900 font-semibold transition-colors shadow-lg"
+            title="Publish to production"
+          >
+            {publishing ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Publishing...
+              </>
+            ) : (
+              <>
+                <Upload className="w-5 h-5" />
+                Publish to Live
+              </>
+            )}
+          </button>
+
+          {/* Save Button */}
           <button
             onClick={handleSaveConfig}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-600 disabled:bg-cyan-500/50 disabled:cursor-not-allowed text-slate-900 font-semibold transition-colors shadow-lg"
+            title="Save changes locally"
           >
             {saving ? (
               <>
@@ -547,6 +613,28 @@ export default function ChangeBusiness() {
               </>
             )}
           </button>
+
+          {/* Status Messages */}
+          {saveStatus === 'success' && (
+            <div className="fixed bottom-24 right-8 bg-green-500/20 border border-green-500 text-green-200 px-4 py-2 rounded-lg text-sm">
+              Changes saved to Firebase!
+            </div>
+          )}
+          {publishStatus === 'success' && (
+            <div className="fixed bottom-24 right-8 bg-green-500/20 border border-green-500 text-green-200 px-4 py-2 rounded-lg text-sm">
+              Published to production!
+            </div>
+          )}
+          {saveStatus === 'error' && (
+            <div className="fixed bottom-24 right-8 bg-red-500/20 border border-red-500 text-red-200 px-4 py-2 rounded-lg text-sm">
+              Error saving changes
+            </div>
+          )}
+          {publishStatus === 'error' && (
+            <div className="fixed bottom-24 right-8 bg-red-500/20 border border-red-500 text-red-200 px-4 py-2 rounded-lg text-sm">
+              Error publishing to production
+            </div>
+          )}
         </div>
       </div>
     </div>

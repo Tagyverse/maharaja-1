@@ -2,10 +2,32 @@
 
 ## Overview
 
-This document describes two major features added to your admin system:
+This document describes the complete admin workflow for managing your entire business and orders:
 
 1. **Business Configuration Portal** (`/changebusiness`) - Manage all business settings, branding, policies, and SEO
-2. **Order Channels Management** - Configure WhatsApp and Telegram for order notifications (available in `/admin` as a new tab)
+2. **Publish to Production** - Push changes to R2 CDN for live updates
+3. **Dynamic Branding System** - Entire app updates automatically based on business config
+4. **Order Channels Management** - Configure WhatsApp and Telegram for order notifications
+
+## Admin Workflow: Save → Publish → Live
+
+```
+Your /changebusiness Admin Panel
+        ↓
+    [Configure Settings]
+    - Company name, colors, SEO, policies
+        ↓
+    [Save Changes] ← Saved to Firebase
+        ↓
+    [Publish to Live] ← Pushed to R2 CDN
+        ↓
+    All Users See Updated Branding Immediately
+    - Colors apply to all pages
+    - Company name in title & header
+    - Policies load dynamically
+    - Logo & images update
+    - Theme/dark mode settings apply
+```
 
 ---
 
@@ -97,11 +119,85 @@ Each color has:
 
 All settings are saved to Firebase Realtime Database under `business_config/default` collection. Settings persist across sessions and are used throughout the application.
 
-### Saving Changes
+### Saving & Publishing Changes
 
+#### Step 1: Save Changes (to Firebase)
 Click the **"Save Changes"** button (floating button in bottom-right corner). You'll see:
 - ✓ Green success message if save succeeds
 - ✗ Red error message if save fails (check connection)
+
+**What happens:**
+- Changes saved to Firebase Realtime Database
+- Your app loads these settings on next page refresh
+- Changes are persistent but only visible to you
+
+#### Step 2: Publish to Live (to R2 CDN)
+Click the **"Publish to Live"** button to push changes to production. You'll see:
+- ✓ Green success message when published
+- ✗ Red error message if publishing fails
+- **App auto-refreshes** after successful publish
+
+**What happens:**
+- Business config sent to R2 CDN
+- All users see updated branding immediately
+- No downtime or page reload required
+- Changes are live globally
+
+### Dynamic Branding System
+
+Once published, your entire web app updates automatically:
+
+#### Colors & Styling
+- **Primary Color**: Updates all primary buttons, links, and highlights
+- **Secondary Color**: Background colors, secondary elements
+- **Accent Color**: CTAs, badges, special elements
+- Applied globally using CSS variables: `var(--primary-color)`, `var(--secondary-color)`, etc.
+
+#### Page Title & Meta
+- **Browser Tab Title**: Updated with your company name
+- **Meta Description**: Updated in page source
+- Helps with SEO and bookmarks
+
+#### Theme Settings
+- **Dark Mode**: Toggle applies to entire app
+- **Font Family**: Changes typography across all pages
+- **Button Style**: Rounded or square buttons everywhere
+- **Color Scheme**: Light, Dark, or Auto (respects user's system preference)
+
+#### Company Branding
+- **Company Name**: Appears in:
+  - Page title
+  - Header section
+  - Footer
+  - All customer-facing areas
+- **Logo**: Displays in header and checkout
+- **Tagline**: Shows in marketing sections
+- **Business Address**: Appears in footer and policies
+
+#### Policies
+- **Terms of Service**: Linked in footer, full page at `/privacy-policy`
+- **Return Policy**: Accessible from product pages and footer
+- **Warranty Information**: Available in footer
+
+#### Example: What Changes
+
+**Before Publishing:**
+```
+Title: My Store
+Primary Color: Cyan (#06b6d4)
+Company Name: Generic Shop
+Return Policy: Default text
+```
+
+**After Publishing:**
+```
+Title: Acme Corporation
+Primary Color: Your Custom Color
+Company Name: Acme Corporation
+Return Policy: Your Custom Policy Text
+```
+
+**All pages instantly reflect these changes without requiring code changes!**
 
 ---
 

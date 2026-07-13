@@ -40,6 +40,7 @@ import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 import { AppInitializer } from './components/AppInitializer';
+import { useBusinessConfig } from './hooks/useBusinessConfig';
 
 type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact' | 'admin' | 'clientcopy' | 'changebusiness';
 
@@ -126,6 +127,7 @@ function AppContentInner() {
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const { user } = useAuth();
   const [prevUser, setPrevUser] = useState<any>(null);
+  const { config: businessConfig } = useBusinessConfig();
 
   // Splash stays until BOTH min time passed AND data finished loading
   useEffect(() => {
@@ -138,6 +140,46 @@ function AppContentInner() {
   useEffect(() => {
     setPrevUser(user);
   }, [user]);
+
+  // Apply business config branding to the app
+  useEffect(() => {
+    if (businessConfig) {
+      const root = document.documentElement;
+      
+      // Apply colors as CSS variables
+      root.style.setProperty('--primary-color', businessConfig.primary_color);
+      root.style.setProperty('--secondary-color', businessConfig.secondary_color);
+      root.style.setProperty('--accent-color', businessConfig.accent_color);
+      
+      // Apply theme settings
+      if (businessConfig.theme_dark_mode_enabled && businessConfig.theme_color_scheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (businessConfig.theme_color_scheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Apply font family
+      document.body.style.fontFamily = businessConfig.theme_font_family;
+      
+      // Update page title
+      document.title = businessConfig.seo_meta_title || 'My Store';
+      
+      // Update meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', businessConfig.seo_meta_description);
+      }
+      
+      console.log('[App] Applied business branding:', {
+        colors: {
+          primary: businessConfig.primary_color,
+          secondary: businessConfig.secondary_color,
+          accent: businessConfig.accent_color
+        },
+        title: businessConfig.seo_meta_title
+      });
+    }
+  }, [businessConfig]);
 
   const hideNavigation = currentPage === 'checkout' || currentPage === 'contact' || currentPage === 'admin' || currentPage === 'clientcopy' || currentPage === 'changebusiness';
   const isAdminPage = currentPage === 'admin' || currentPage === 'clientcopy' || currentPage === 'changebusiness';
