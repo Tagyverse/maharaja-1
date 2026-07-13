@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, createContext, useContext } from 'react';
 
 interface TabsProps {
   children: ReactNode;
@@ -22,15 +22,13 @@ interface TabsContentProps {
   children: ReactNode;
 }
 
-const TabsContext = React.createContext<{
+const TabsContext = createContext<{
   activeTab: string;
   setActiveTab: (value: string) => void;
 }>({
   activeTab: '',
   setActiveTab: () => {},
 });
-
-import React from 'react';
 
 export function Tabs({ children, defaultValue, className = '' }: TabsProps) {
   const [activeTab, setActiveTab] = useState(defaultValue);
@@ -51,7 +49,7 @@ export function TabsList({ children, className = '' }: TabsListProps) {
 }
 
 export function TabsTrigger({ value, children, className = '' }: TabsTriggerProps) {
-  const { activeTab, setActiveTab } = React.useContext(TabsContext);
+  const { activeTab, setActiveTab } = useContext(TabsContext);
 
   return (
     <button
@@ -68,7 +66,7 @@ export function TabsTrigger({ value, children, className = '' }: TabsTriggerProp
 }
 
 export function TabsContent({ value, children }: TabsContentProps) {
-  const { activeTab } = React.useContext(TabsContext);
+  const { activeTab } = useContext(TabsContext);
 
   if (activeTab !== value) return null;
 

@@ -34,7 +34,7 @@ const defaultConfig: RebrandConfig = {
   lastUpdated: new Date().toISOString(),
 };
 
-export default function RebrandEditor({ clientId, showToast }: RebrandEditorProps) {
+export function RebrandEditor_Component({ clientId, showToast }: RebrandEditorProps) {
   const [config, setConfig] = useState<RebrandConfig>(defaultConfig);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -346,3 +346,6 @@ export default function RebrandEditor({ clientId, showToast }: RebrandEditorProp
     </div>
   );
 }
+
+export default RebrandEditor_Component;
+
