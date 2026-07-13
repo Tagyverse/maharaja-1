@@ -108,17 +108,39 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
   const handlePublish = async () => {
     setPublishing(true);
     try {
-      const res = await fetch('/api/get-published-data');
-      if (!res.ok) throw new Error(`Fetch published data failed (${res.status})`);
-      const current = await res.json();
-      if (current.error) throw new Error(current.error);
+      // Fetch existing published data (always returns 200 with defaults)
+      let current = {
+        branding: { name: brand.name, tagline: brand.tagline },
+        navigation_settings: {},
+        card_design: {},
+      };
 
+      try {
+        const res = await fetch('/api/get-published-data', { 
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        console.log('[REBRAND] get-published-data response status:', res.status);
+        
+        if (res.ok) {
+          const data = await res.json();
+          console.log('[REBRAND] get-published-data received:', data);
+          if (!data.error) {
+            current = data;
+          }
+        }
+      } catch (fetchErr) {
+        console.warn('[REBRAND] Could not fetch published data, using defaults:', fetchErr);
+      }
+
+      // Merge current data with new branding state
       const merged = {
         ...current,
         branding: { ...state, updated_at: new Date().toISOString() },
         published_at: new Date().toISOString(),
       };
 
+      // Publish merged data to Cloudflare
       const pub = await fetch('/api/publish-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -126,6 +148,7 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
       });
       
       const pubResult = await pub.json();
+      console.log('[REBRAND] publish-data response:', { status: pub.status, result: pubResult });
       
       if (!pub.ok) {
         throw new Error(pubResult.error || `Publish failed (${pub.status})`);
