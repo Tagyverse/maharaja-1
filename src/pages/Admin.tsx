@@ -3,7 +3,7 @@
 import React from "react"
 
 import { useEffect, useState } from 'react';
-import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2 } from 'lucide-react';
+import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2, Building2 } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { ref, get, set, update, remove, push } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext';
@@ -35,6 +35,7 @@ import DataValidationPanel from '../components/admin/DataValidationPanel';
 import { validateFirebaseData, type ValidationResult } from '../utils/dataValidator';
 import PublishHistoryPanel from '../components/admin/PublishHistoryPanel';
 import PublishManager from '../components/admin/PublishManager';
+import ChangeBusiness from '../components/admin/ChangeBusiness';
 import { addPublishRecord } from '../utils/publishHistory';
 
 export default function Admin() {
@@ -60,7 +61,7 @@ export default function Admin() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'settings' | 'publish'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'settings' | 'change-business' | 'publish'>('products');
   const [isPublishing, setIsPublishing] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -1637,6 +1638,25 @@ Users will now see the updated content.`;
             </button>
             <button
               onClick={() => {
+                setActiveTab('change-business');
+                setShowForm(false);
+                setShowCategoryForm(false);
+                setShowReviewForm(false);
+                setShowOfferForm(false);
+              }}
+              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'change-business'
+                  ? 'border-b-4 border-amber-500 text-amber-600'
+                  : 'text-gray-600 hover:text-amber-600'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                Business Info
+              </div>
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab('ai-assistant');
                 setShowForm(false);
                 setShowCategoryForm(false);
@@ -2888,6 +2908,12 @@ Users will now see the updated content.`;
                 <p className="text-blue-100">Customize your website footer with preset themes, colors, and content</p>
               </div>
               <FooterManager />
+            </div>
+          )}
+
+          {activeTab === 'change-business' && (
+            <div className="space-y-6">
+              <ChangeBusiness />
             </div>
           )}
 
