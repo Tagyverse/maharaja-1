@@ -3,7 +3,7 @@
 import React from "react"
 
 import { useEffect, useState } from 'react';
-import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2, Send } from 'lucide-react';
+import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2, Send, Store } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { ref, get, set, update, remove, push } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext';
@@ -38,6 +38,7 @@ import PublishHistoryPanel from '../components/admin/PublishHistoryPanel';
 import PublishManager from '../components/admin/PublishManager';
 import { addPublishRecord } from '../utils/publishHistory';
 import FeatureManagement from '../components/admin/FeatureManagement';
+import ChangeBusiness from '../components/admin/ChangeBusiness';
 
 export default function Admin() {
   const { user } = useAuth();
@@ -62,7 +63,7 @@ export default function Admin() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'settings' | 'features' | 'publish'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'change-business' | 'settings' | 'features' | 'publish'>('products');
   const [isPublishing, setIsPublishing] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -1718,6 +1719,25 @@ Users will now see the updated content.`;
             )}
             <button
               onClick={() => {
+                setActiveTab('change-business');
+                setShowForm(false);
+                setShowCategoryForm(false);
+                setShowReviewForm(false);
+                setShowOfferForm(false);
+              }}
+              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'change-business'
+                  ? 'border-b-4 border-indigo-500 text-indigo-600'
+                  : 'text-gray-600 hover:text-indigo-600'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Store className="w-4 h-4 sm:w-5 sm:h-5" />
+                Change Business
+              </div>
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab('features');
                 setShowForm(false);
                 setShowCategoryForm(false);
@@ -3165,6 +3185,23 @@ Users will now see the updated content.`;
                   </button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'change-business' && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-2xl p-6 sm:p-8 text-white">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <Store className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">Business Configuration</h2>
+                    <p className="text-white/90 mt-1">Manage business details and control store features</p>
+                  </div>
+                </div>
+              </div>
+              <ChangeBusiness />
             </div>
           )}
 

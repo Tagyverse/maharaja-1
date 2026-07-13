@@ -30,6 +30,7 @@ import { useFeatureFlags } from './hooks/useFeatureFlags';
 // Lazy load heavy pages for better initial load performance
 const Checkout = lazy(() => import('./pages/Checkout'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Admin = lazy(() => import('./pages/Admin'));
 import type { Product } from './types';
 import { db } from './lib/firebase';
 import { ref, get } from 'firebase/database';
@@ -39,7 +40,7 @@ import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 import { AppInitializer } from './components/AppInitializer';
 
-type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
+type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact' | 'admin';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -90,7 +91,7 @@ function getInitialPage(): Page {
   if (path === '/shipping-policy') return 'shipping-policy';
   if (path === '/refund-policy') return 'refund-policy';
   if (path === '/contact') return 'contact';
-  if (path === '/admin' || path === '/admin/') return 'home'; // Admin handled separately, show home as fallback
+  if (path === '/admin' || path === '/admin/') return 'admin';
   return 'home';
 }
 
@@ -135,8 +136,8 @@ function AppContentInner() {
     setPrevUser(user);
   }, [user]);
 
-  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact';
-  const isAdminPage = false;
+  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact' || currentPage === 'admin';
+  const isAdminPage = currentPage === 'admin';
 
   useEffect(() => {
     // Enable smooth scrolling
@@ -286,6 +287,12 @@ function AppContentInner() {
         return (
           <Suspense fallback={<LoadingFallback />}>
             <Contact onBack={() => handleNavigate('home')} />
+          </Suspense>
+        );
+      case 'admin':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <Admin />
           </Suspense>
         );
       default:

@@ -111,10 +111,6 @@ export default defineConfig({
   plugins: [apiDevFallback(), react()],
   build: {
     rollupOptions: {
-      input: {
-        main: './index.html',
-        admin: './admin.html',
-      },
       output: {
         manualChunks: {
           // Split vendor code
