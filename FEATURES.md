@@ -1,0 +1,383 @@
+# New Features: Business Configuration & Order Management
+
+## Overview
+
+This document describes two major features added to your admin system:
+
+1. **Business Configuration Portal** (`/changebusiness`) - Manage all business settings, branding, policies, and SEO
+2. **Order Channels Management** - Configure WhatsApp and Telegram for order notifications (available in `/admin` as a new tab)
+
+---
+
+## 1. Business Configuration Portal (`/changebusiness`)
+
+### Accessing the Portal
+
+Navigate to `http://yoursite.com/changebusiness` in your browser. You'll be prompted to authenticate with your admin credentials.
+
+**Authentication:**
+- Admin ID: Use the same credentials as your admin panel (from environment variables `VITE_ADMIN_ID` and `VITE_ADMIN_PASSWORD`)
+- Session persists in localStorage for convenience
+
+### Configuration Sections
+
+#### A. General Tab - Business Information
+
+**Company Details:**
+- **Company Name**: Your business's primary name
+- **Tagline**: Short promotional text (e.g., "Premium Quality, Best Price")
+- **Legal Business Name**: Official registered business name
+- **Logo URL**: Link to your company logo image
+
+**Contact Information:**
+- **Primary Email**: Main business email for customer inquiries
+- **Primary Phone**: Business phone number with country code
+
+**Business Address:**
+- Street address, city, state/province, country, ZIP code
+- This information appears in your policies and checkout
+
+#### B. Branding Tab - Color Customization
+
+**Color Configuration:**
+- **Primary Color**: Main brand color (e.g., cyan: `#06b6d4`)
+- **Secondary Color**: Secondary brand color (e.g., dark slate: `#0f172a`)
+- **Accent Color**: Highlight color for buttons and important elements
+
+Each color has:
+- A color picker widget for visual selection
+- A hex code input field for precise values
+- Real-time preview capability
+
+**Use Cases:**
+- Match your brand identity
+- Create consistent visual experience across the website
+- Highlight important CTAs and features
+
+#### C. SEO Tab - Search Engine Optimization
+
+**Meta Information:**
+- **Meta Title** (55-60 characters): How your site appears in search results
+- **Meta Description** (150-160 characters): Summary shown under search results
+- **OG Image URL**: Preview image when sharing on social media
+- **Keywords**: Important search terms (comma-separated)
+
+**Optimization Tips:**
+- Keep titles concise and descriptive
+- Use clear, benefit-focused descriptions
+- Include your main product/service keywords
+- Use high-quality images for OG meta
+
+#### D. Policies Tab - Business Policies
+
+**Editable Policies:**
+- **Terms of Service**: Legal terms for your store
+- **Return Policy**: How customers can return products
+- **Warranty Information**: Product warranty details
+
+**Usage:**
+- Text appears in your website's policy pages
+- Accessible to customers for transparency
+- Update anytime from the admin panel
+
+#### E. Theme Tab - Visual Settings
+
+**Theme Configuration:**
+- **Font Family**: Choose between System UI, Sans Serif, Serif, or Monospace
+- **Color Scheme**: Light, Dark, or Auto (follow system settings)
+- **Button Style**: Rounded or square button shapes
+- **Dark Mode Toggle**: Enable/disable dark mode support
+
+**Recommendations:**
+- Use "Auto" for color scheme to respect user preferences
+- Rounded buttons for modern aesthetic
+- System UI font for best performance
+
+### Data Persistence
+
+All settings are saved to Firebase Realtime Database under `business_config/default` collection. Settings persist across sessions and are used throughout the application.
+
+### Saving Changes
+
+Click the **"Save Changes"** button (floating button in bottom-right corner). You'll see:
+- ✓ Green success message if save succeeds
+- ✗ Red error message if save fails (check connection)
+
+---
+
+## 2. Order Channels Management (`/admin` → Order Channels Tab)
+
+### Accessing Order Channels
+
+1. Navigate to `/admin` (your main admin panel)
+2. Authenticate with admin credentials
+3. Click on the **"Order Channels"** tab
+
+### Features
+
+#### Channel Selection
+
+Toggle between **WhatsApp** and **Telegram** order notification channels. Only one channel can be active at a time.
+
+Each channel has:
+- **Enable/Disable Toggle**: Control whether orders use this channel
+- **Configuration Section**: Input credentials and settings
+- **Message Templates**: Customize notification messages
+- **Test Connection**: Validate your credentials before going live
+
+#### WhatsApp Configuration
+
+**Required Information:**
+- **Phone Number**: Your WhatsApp Business number with country code (e.g., +1234567890)
+- **API Key**: WhatsApp Business API authentication key
+
+**Getting WhatsApp Business API:**
+1. Visit [WhatsApp Business Platform](https://www.whatsapp.com/business/api/)
+2. Register your business account
+3. Get your WhatsApp phone number and API key
+4. Add in this admin panel
+
+**Message Templates:**
+- `order_confirmation`: Initial order received message
+- `order_processing`: Order is being prepared
+- `order_completed`: Order shipped/ready for pickup
+- `order_cancelled`: Order cancellation notice
+
+**Example Template:**
+```
+Your order has been confirmed! 
+Order ID: {order_id}
+We'll update you soon with shipping details.
+```
+
+**Test Connection:**
+- Fill in phone number and API key
+- Click "Test Connection" button
+- Green checkmark = valid credentials
+- Red X = invalid credentials or API issue
+
+#### Telegram Bot Configuration
+
+**Required Information:**
+- **Bot Token**: Your Telegram bot API token from BotFather
+- **Chat ID**: Your Telegram chat ID where notifications are sent
+
+**Getting Telegram Bot Token:**
+1. Open Telegram and search for `@BotFather`
+2. Send `/start` command
+3. Send `/newbot` to create a new bot
+4. Follow the prompts and get your bot token
+5. Paste token in the admin panel
+
+**Getting Chat ID:**
+1. Start a conversation with your new bot
+2. Send any message
+3. Visit `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
+4. Find your `chat_id` in the response
+5. Paste in the admin panel
+
+**Message Templates:**
+Same as WhatsApp:
+- `order_confirmation`
+- `order_processing`
+- `order_completed`
+- `order_cancelled`
+
+**Template Variables:**
+- `{order_id}`: Unique order identifier
+- Customize messages for your brand voice
+
+#### Recent Orders
+
+**Orders Table** shows:
+- **Order ID**: Unique identifier (first 8 characters)
+- **Customer**: Customer name
+- **Amount**: Order total amount
+- **Channel**: WhatsApp, Telegram, or Web
+- **Status**: Current order status (dropdown to change)
+- **Action**: View detailed order information
+
+**Status Updates:**
+- Change order status from dropdown: Pending → Processing → Completed → Cancelled
+- Automatically updates Firebase with new status and timestamp
+- Notifications sent via active channel when status changes
+
+### Message Flow
+
+When an order is created:
+1. Order saved to Firebase `orders` collection
+2. If WhatsApp is enabled: Sends order confirmation via WhatsApp
+3. If Telegram is enabled: Sends order confirmation via Telegram
+4. Admin receives notification for manual follow-up
+
+### Testing Your Setup
+
+**Before Going Live:**
+1. Configure WhatsApp OR Telegram (or both)
+2. Click "Test Connection" button
+3. Verify you receive test messages
+4. Check message formatting and content
+5. Update template messages if needed
+6. Enable the channel
+7. Create a test order to verify notifications
+
+**Troubleshooting:**
+- If test fails: Check credentials are correct
+- If messages not received: Verify phone number/chat ID format
+- Check Firebase connection and database rules
+- Review browser console for errors
+
+### Best Practices
+
+1. **Keep Numbers/Tokens Secure**: Don't share credentials publicly
+2. **Test Before Launch**: Always test both success and error scenarios
+3. **Update Templates**: Customize messages to match your brand
+4. **Monitor Orders**: Check admin panel regularly for new orders
+5. **Respond Quickly**: Use these channels to quickly acknowledge and update customers
+6. **Compliance**: Ensure you comply with platform policies (WhatsApp, Telegram)
+
+---
+
+## Technical Details
+
+### File Structure
+
+```
+src/
+├── pages/
+│   ├── ChangeBusiness.tsx          # Main business config page
+│   └── Admin.tsx                    # Enhanced with order-channels tab
+├── components/
+│   └── admin/
+│       └── OrderChannelManager.tsx # Order channels UI component
+├── utils/
+│   └── businessConfigManager.ts    # Firebase operations
+└── types.ts                         # New interfaces (BusinessConfig, OrderChannel, Order)
+```
+
+### Database Schema
+
+**Business Config:**
+```
+firebase_db
+└── business_config/
+    └── default/
+        ├── company_name: string
+        ├── primary_color: string
+        ├── secondary_color: string
+        ├── accent_color: string
+        ├── terms_of_service: string
+        ├── seo_meta_title: string
+        ├── seo_meta_description: string
+        └── ... (all business settings)
+```
+
+**Order Channels:**
+```
+firebase_db
+└── integrations/
+    ├── whatsapp/
+    │   ├── phone_number: string
+    │   ├── api_key: string
+    │   ├── enabled: boolean
+    │   └── message_templates: object
+    └── telegram/
+        ├── bot_token: string
+        ├── chat_id: string
+        ├── enabled: boolean
+        └── message_templates: object
+```
+
+**Orders:**
+```
+firebase_db
+└── orders/
+    └── {orderId}/
+        ├── customer_name: string
+        ├── amount: number
+        ├── status: string
+        ├── channel: string
+        └── ... (order details)
+```
+
+### API Integration
+
+#### Business Config Manager Functions
+
+```typescript
+// Load configuration
+await fetchBusinessConfig('default')
+
+// Save configuration
+await saveBusinessConfig('default', config)
+
+// Update specific fields
+await updateBusinessConfig('default', updates)
+
+// Get order channels
+await fetchOrderChannel('whatsapp' | 'telegram')
+
+// Save order channel
+await saveOrderChannel(channelType, config)
+
+// Test connection
+await testChannelConnection(channelType, config)
+```
+
+### Security Notes
+
+1. **Admin Authentication**: Required for both `/changebusiness` and `/admin`
+2. **Environment Variables**: Credentials stored in `.env` files, never exposed to client
+3. **Firebase Rules**: Implement RLS to restrict database access to authenticated admins
+4. **API Keys**: Stored securely; implement rate limiting for API calls
+5. **Data Validation**: All inputs validated before saving
+
+---
+
+## Future Enhancements
+
+Potential features to add:
+- SMS notifications (Twilio integration)
+- Email notifications (SendGrid)
+- Webhook support for external systems
+- Order analytics and reporting
+- Bulk order import/export
+- Multi-language support
+- Advanced message scheduling
+
+---
+
+## Support & Troubleshooting
+
+**Common Issues:**
+
+**Q: Changes not saving**
+- A: Check internet connection and Firebase connectivity
+- Ensure admin is authenticated
+- Check browser console for errors
+
+**Q: Messages not sending**
+- A: Verify credentials (phone number format, API keys)
+- Click "Test Connection" to validate
+- Check message templates aren't empty
+
+**Q: Can't access /changebusiness**
+- A: Must be logged in with correct admin credentials
+- Check environment variables are set correctly
+- Clear localStorage and try again
+
+**Q: Database errors**
+- A: Verify Firebase is properly configured
+- Check database rules allow admin access
+- Review Firebase console for connection issues
+
+---
+
+## Getting Help
+
+If you encounter issues:
+1. Check the browser console (F12) for error messages
+2. Review Firebase console for database issues
+3. Verify all environment variables are set
+4. Test with different browsers
+5. Contact support with error screenshots

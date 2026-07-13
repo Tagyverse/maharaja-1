@@ -36,6 +36,7 @@ import { validateFirebaseData, type ValidationResult } from '../utils/dataValida
 import PublishHistoryPanel from '../components/admin/PublishHistoryPanel';
 import PublishManager from '../components/admin/PublishManager';
 import { addPublishRecord } from '../utils/publishHistory';
+import OrderChannelManager from '../components/admin/OrderChannelManager';
 
 export default function Admin() {
   const { user } = useAuth();
@@ -60,7 +61,7 @@ export default function Admin() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'settings' | 'publish'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'settings' | 'publish'>('products');
   const [isPublishing, setIsPublishing] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -1342,6 +1343,7 @@ Users will now see the updated content.`;
               <option value="try-on">Try-On Models</option>
               <option value="tax">Tax Settings</option>
               <option value="footer">Footer</option>
+              <option value="order-channels">Order Channels</option>
               <option value="ai-assistant">AI Assistant</option>
               <option value="traffic">Traffic</option>
               <option value="gallery">R2 Gallery</option>
@@ -1633,6 +1635,25 @@ Users will now see the updated content.`;
               <div className="flex items-center gap-2">
                 <Footprints className="w-4 h-4 sm:w-5 sm:h-5" />
                 Footer
+              </div>
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('order-channels');
+                setShowForm(false);
+                setShowCategoryForm(false);
+                setShowReviewForm(false);
+                setShowOfferForm(false);
+              }}
+              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'order-channels'
+                  ? 'border-b-4 border-green-500 text-green-600'
+                  : 'text-gray-600 hover:text-green-600'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
+                Order Channels
               </div>
             </button>
             <button
@@ -2888,6 +2909,19 @@ Users will now see the updated content.`;
                 <p className="text-blue-100">Customize your website footer with preset themes, colors, and content</p>
               </div>
               <FooterManager />
+            </div>
+          )}
+
+          {activeTab === 'order-channels' && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl p-6 sm:p-8 text-white">
+                <div className="flex items-center gap-4 mb-3">
+                  <MessageSquare className="w-8 h-8 sm:w-10 sm:h-10" />
+                  <h2 className="text-2xl sm:text-3xl font-bold">Order Channels</h2>
+                </div>
+                <p className="text-green-100">Configure WhatsApp and Telegram for order notifications and customer communication</p>
+              </div>
+              <OrderChannelManager />
             </div>
           )}
 

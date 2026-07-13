@@ -94,3 +94,66 @@ export interface TryOnModel {
   created_at: string;
   updated_at: string;
 }
+
+export interface BusinessConfig {
+  id?: string;
+  company_name: string;
+  logo_url: string;
+  tagline: string;
+  legal_business_name: string;
+  primary_contact_email: string;
+  primary_contact_phone: string;
+  business_address: string;
+  business_city: string;
+  business_state: string;
+  business_country: string;
+  business_zip: string;
+  primary_color: string;
+  secondary_color: string;
+  accent_color: string;
+  terms_of_service: string;
+  return_policy: string;
+  warranty_information: string;
+  custom_policies: Record<string, string>;
+  seo_meta_title: string;
+  seo_meta_description: string;
+  seo_og_image: string;
+  seo_keywords: string[];
+  theme_font_family: string;
+  theme_dark_mode_enabled: boolean;
+  theme_color_scheme: 'light' | 'dark' | 'auto';
+  theme_button_style: 'rounded' | 'square';
+  created_at: string;
+  updated_at: string;
+  updated_by: string;
+}
+
+export interface OrderChannel {
+  id?: string;
+  type: 'whatsapp' | 'telegram' | 'web';
+  enabled: boolean;
+  phone_number?: string;
+  bot_token?: string;
+  chat_id?: string;
+  api_key?: string;
+  message_templates: Record<string, string>;
+  test_status?: 'pending' | 'success' | 'failed';
+  test_message?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Order {
+  id: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  amount: number;
+  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  channel: 'whatsapp' | 'telegram' | 'web';
+  items: Array<{ product_id: string; quantity: number; price: number }>;
+  shipping_address: string;
+  notes: string;
+  created_at: string;
+  updated_at: string;
+}
