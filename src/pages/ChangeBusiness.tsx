@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Settings, Save, Loader2, ChevronDown, Upload, LogOut } from 'lucide-react';
+import { AlertCircle, Settings, Save, Loader2, ChevronDown, Upload, LogOut, Eye } from 'lucide-react';
 import type { BusinessConfig } from '../types';
 import { fetchBusinessConfig, saveBusinessConfig, getDefaultBusinessConfig } from '../utils/businessConfigManager';
+import { THEME_PRESETS, applyThemePreset, detectPresetFromConfig } from '../utils/themePresets';
+import ThemePreview from '../components/ThemePreview';
+import AdvancedThemeEditor from '../components/AdvancedThemeEditor';
 
 // Admin Component Managers
 import NavigationCustomizer from '../components/admin/NavigationCustomizer';
@@ -34,6 +37,8 @@ export default function ChangeBusiness() {
   const [publishing, setPublishing] = useState(false);
   const [publishStatus, setPublishStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [activeTab, setActiveTab] = useState<'business' | 'navigation' | 'hero' | 'carousel' | 'sections' | 'footer' | 'marquee' | 'card-design' | 'video-sections' | 'banner' | 'coupons' | 'shipping' | 'tax' | 'orders' | 'publish'>('business');
+  const [showPreview, setShowPreview] = useState(false);
+  const [currentPreset, setCurrentPreset] = useState<string | null>(null);
 
   useEffect(() => {
     const savedAuth = localStorage.getItem('adminAuthenticated');
@@ -50,11 +55,23 @@ export default function ChangeBusiness() {
       const config = await fetchBusinessConfig('default');
       if (config) {
         setBusinessConfig(config);
+        const detectedPreset = detectPresetFromConfig(config);
+        setCurrentPreset(detectedPreset);
       }
     } catch (error) {
       console.error('Error loading business config:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApplyPreset = (presetName: string) => {
+    const preset = THEME_PRESETS[presetName];
+    if (preset) {
+      const presetConfig = applyThemePreset(preset);
+      setBusinessConfig(prev => ({ ...prev, ...presetConfig }));
+      setCurrentPreset(presetName);
+      setSaveStatus('idle');
     }
   };
 
@@ -295,19 +312,74 @@ export default function ChangeBusiness() {
         {/* Business Configuration Tab */}
         {activeTab === 'business' && (
           <div className="space-y-6">
+            {/* Theme Presets Section */}
+            <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/50 rounded-lg p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-purple-300">Theme Presets</h3>
+                <button
+                  onClick={() => setShowPreview(!showPreview)}
+                  className="flex items-center gap-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm transition-colors"
+                >
+                  <Eye className="w-4 h-4" />
+                  {showPreview ? 'Hide' : 'Show'} Preview
+                </button>
+              </div>
+              <p className="text-sm text-slate-400">Select a preset to instantly apply a complete theme</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {Object.entries(THEME_PRESETS).map(([presetId, preset]) => (
+                  <button
+                    key={presetId}
+                    onClick={() => handleApplyPreset(presetId)}
+                    className={`p-4 rounded-lg border-2 transition-all hover:scale-105 ${
+                      currentPreset === presetId
+                        ? 'border-cyan-400 bg-cyan-500/20'
+                        : 'border-slate-600 bg-slate-800/30 hover:border-slate-500'
+                    }`}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <p className="font-semibold text-sm">{preset.label}</p>
+                      <div className="flex gap-1">
+                        <div
+                          className="w-6 h-6 rounded border border-slate-600"
+                          style={{ backgroundColor: preset.colors.primary }}
+                          title="Primary"
+                        />
+                        <div
+                          className="w-6 h-6 rounded border border-slate-600"
+                          style={{ backgroundColor: preset.colors.secondary }}
+                          title="Secondary"
+                        />
+                        <div
+                          className="w-6 h-6 rounded border border-slate-600"
+                          style={{ backgroundColor: preset.colors.accent }}
+                          title="Accent"
+                        />
+                      </div>
+                      <p className="text-xs text-slate-400">{preset.description}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Live Preview */}
+            {showPreview && (
+              <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 space-y-4">
+                <h3 className="text-lg font-semibold text-cyan-300">Live Preview</h3>
+                <p className="text-sm text-slate-400">See how your website will look with the current theme settings</p>
+                <div className="max-h-[600px] overflow-y-auto">
+                  <ThemePreview config={businessConfig} />
+                </div>
+              </div>
+            )}
+
+            {/* Advanced Theme Editor */}
+            <AdvancedThemeEditor config={businessConfig} onUpdate={handleConfigChange} />
+
+            {/* Business Information Section */}
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">Business Information</h3>
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Company Name</label>
-                  <input
-                    type="text"
-                    value={businessConfig.company_name}
-                    onChange={(e) => handleConfigChange('company_name', e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
-                  />
-                </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">Tagline</label>
                   <input
@@ -466,6 +538,7 @@ export default function ChangeBusiness() {
               </div>
               <p className="text-slate-400 text-sm">These colors will be applied throughout your website for consistent branding.</p>
             </div>
+            {/* SEO Configuration */}
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">SEO Configuration</h3>
               <div>
@@ -475,7 +548,9 @@ export default function ChangeBusiness() {
                   value={businessConfig.seo_meta_title}
                   onChange={(e) => handleConfigChange('seo_meta_title', e.target.value)}
                   className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                  placeholder="My Awesome Store"
                 />
+                <p className="text-xs text-slate-400 mt-1">This appears in browser tabs and search results</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Meta Description</label>
@@ -484,9 +559,13 @@ export default function ChangeBusiness() {
                   onChange={(e) => handleConfigChange('seo_meta_description', e.target.value)}
                   rows={3}
                   className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                  placeholder="Your store description for search engines..."
                 />
+                <p className="text-xs text-slate-400 mt-1">50-160 characters recommended for search engines</p>
               </div>
             </div>
+
+            {/* Policy Management */}
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
               <h3 className="text-lg font-semibold text-cyan-400">Policy Management</h3>
               <div>
@@ -496,6 +575,7 @@ export default function ChangeBusiness() {
                   onChange={(e) => handleConfigChange('terms_of_service', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                  placeholder="Enter your terms of service..."
                 />
               </div>
               <div>
@@ -505,34 +585,8 @@ export default function ChangeBusiness() {
                   onChange={(e) => handleConfigChange('return_policy', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                  placeholder="Enter your return policy..."
                 />
-              </div>
-            </div>
-            <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
-              <h3 className="text-lg font-semibold text-cyan-400">Theme Settings</h3>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Font Family</label>
-                <select
-                  value={businessConfig.theme_font_family}
-                  onChange={(e) => handleConfigChange('theme_font_family', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-slate-50 focus:outline-none focus:border-cyan-400"
-                >
-                  <option>sans-serif</option>
-                  <option>serif</option>
-                  <option>monospace</option>
-                </select>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="darkMode"
-                  checked={businessConfig.theme_dark_mode_enabled}
-                  onChange={(e) => handleConfigChange('theme_dark_mode_enabled', e.target.checked)}
-                  className="w-4 h-4 rounded cursor-pointer"
-                />
-                <label htmlFor="darkMode" className="text-slate-300 cursor-pointer">
-                  Enable Dark Mode
-                </label>
               </div>
             </div>
           </div>

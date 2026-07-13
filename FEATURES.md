@@ -11,11 +11,28 @@ This document describes the complete admin workflow for managing your **entire w
    - Coupons, shipping, tax, order channels
    - All website editing in one location!
    
-2. **Publish to Production** - Push ALL changes to R2 CDN for live updates
+2. **8 Professional Theme Presets** - One-click theme application:
+   - Modern, Minimal, Luxury, Vibrant, Ocean, Forest, Sunset, Cyberpunk
+   - Each preset includes colors, fonts, button styles, and mood
+   - Instantly apply complete themes without manual configuration
 
-3. **Dynamic Branding System** - Entire app updates automatically based on config
+3. **Live Theme Preview** - See changes in real-time:
+   - Visual preview of your site with current theme
+   - Shows product cards, buttons, colors, fonts
+   - Update and watch changes instantly
 
-4. **Order Management** - Configure WhatsApp and Telegram for order notifications
+4. **Advanced Theme Editor** - Fine-tune every detail:
+   - Color pickers with hex inputs
+   - Font family selection (Sans-serif, Serif, Monospace)
+   - Button style (Rounded or Square)
+   - Color mode (Light, Dark, Auto)
+   - Full theme customization
+
+5. **Publish to Production** - Push ALL changes to R2 CDN for live updates
+
+6. **Dynamic Branding System** - Entire app updates automatically based on config
+
+7. **Order Management** - Configure WhatsApp and Telegram for order notifications
 
 ## Admin Workflow: Save → Publish → Live
 
@@ -36,6 +53,84 @@ Your /changebusiness Admin Panel
     - Logo & images update
     - Theme/dark mode settings apply
 ```
+
+---
+
+## Theme Presets & Live Preview
+
+### Available Presets
+
+The Business tab includes 8 carefully designed theme presets you can apply with one click:
+
+| Preset | Feel | Best For |
+|--------|------|----------|
+| **Modern** | Contemporary, clean | Tech companies, startups |
+| **Minimal** | Simple, elegant | Design-focused, luxury goods |
+| **Luxury** | Premium, sophisticated | High-end fashion, jewelry |
+| **Vibrant** | Bold, energetic | Entertainment, gaming |
+| **Ocean** | Cool, calming | Travel, wellness, beauty |
+| **Forest** | Natural, organic | Eco-friendly, organic products |
+| **Sunset** | Warm, inviting | Food, hospitality, lifestyle |
+| **Cyberpunk** | Futuristic, edgy | Tech, gaming, innovation |
+
+### Using Theme Presets
+
+1. Go to `/changebusiness` → Business tab
+2. Scroll to "Theme Presets" section
+3. Click any preset card to instantly apply it
+   - All colors, fonts, button styles update immediately
+   - Preset tag shows as "selected" (cyan border)
+   - Your entire site reflects the new theme
+
+### Live Preview Feature
+
+The **Live Preview** shows exactly how your website will look:
+
+- Click "Show Preview" button in Theme Presets section
+- See product cards, buttons, colors, fonts in action
+- Preview updates in real-time as you adjust settings
+- Helps you make theme decisions before publishing
+
+### Advanced Theme Customization
+
+After applying a preset, fine-tune any aspect:
+
+**Color Customization**
+- Click color pickers to change Primary, Secondary, Accent colors
+- Enter hex codes directly (e.g., `#FF5733`)
+- See color opacity variations (100%, 80%, 40%, 20%)
+- Copy colors to clipboard
+
+**Typography**
+- Select font: Sans-serif (modern), Serif (classic), Monospace (tech)
+- Font applies to all text across your site
+
+**Button & Component Style**
+- Choose Rounded or Square button styles
+- Affects all buttons, cards, and components site-wide
+
+**Color Mode**
+- Light: Bright, clean appearance
+- Dark: Easy on the eyes, modern feel
+- Auto: Respects user's system preference
+
+### Live Reflection on Client Side
+
+All theme changes are instantly reflected across your entire website:
+
+**What Updates in Real-Time:**
+- ✓ All button colors and styles
+- ✓ Link colors and hover states
+- ✓ Header and footer styling
+- ✓ Card backgrounds and borders
+- ✓ Product display colors
+- ✓ Text colors for readability
+- ✓ Dark mode appearance
+- ✓ Font family throughout
+
+**When Changes Take Effect:**
+- After clicking "Save Changes" → Saved to Firebase (your instance loads)
+- After clicking "Publish to Live" → All users see changes immediately
 
 ---
 
