@@ -29,6 +29,7 @@ import { useFeatureFlags } from './hooks/useFeatureFlags';
 const Admin = lazy(() => import('./pages/Admin'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const SuperAdmin = lazy(() => import('./pages/SuperAdmin'));
+const Rebrand = lazy(() => import('./pages/Rebrand'));
 const Contact = lazy(() => import('./pages/Contact'));
 import type { Product } from './types';
 import { db } from './lib/firebase';
@@ -38,7 +39,7 @@ import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 
-type Page = 'home' | 'shop' | 'admin' | 'checkout' | 'superadmin' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
+type Page = 'home' | 'shop' | 'admin' | 'checkout' | 'superadmin' | 'rebrand' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -85,6 +86,7 @@ function getInitialPage(): Page {
   const path = window.location.pathname;
   if (path === '/admin') return 'admin';
   if (path.startsWith('/superadmin')) return 'superadmin';
+  if (path === '/rebrand') return 'rebrand';
   if (path === '/shop') return 'shop';
   if (path === '/checkout') return 'checkout';
   if (path === '/privacy-policy') return 'privacy-policy';
@@ -125,8 +127,8 @@ function AppContent() {
     setPrevUser(user);
   }, [user]);
 
-  const hideNavigation = currentPage === 'admin' || currentPage === 'checkout' || currentPage === 'superadmin' || currentPage === 'contact';
-  const isAdminPage = currentPage === 'admin' || currentPage === 'superadmin';
+  const hideNavigation = currentPage === 'admin' || currentPage === 'checkout' || currentPage === 'superadmin' || currentPage === 'rebrand' || currentPage === 'contact';
+  const isAdminPage = currentPage === 'admin' || currentPage === 'superadmin' || currentPage === 'rebrand';
 
   useEffect(() => {
     // Enable smooth scrolling
@@ -276,6 +278,12 @@ function AppContent() {
         return (
           <Suspense fallback={<LoadingFallback />}>
             <SuperAdmin />
+          </Suspense>
+        );
+      case 'rebrand':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <Rebrand />
           </Suspense>
         );
       case 'checkout':
