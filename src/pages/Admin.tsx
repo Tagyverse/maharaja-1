@@ -37,6 +37,7 @@ import { validateFirebaseData, type ValidationResult } from '../utils/dataValida
 import PublishHistoryPanel from '../components/admin/PublishHistoryPanel';
 import PublishManager from '../components/admin/PublishManager';
 import { addPublishRecord } from '../utils/publishHistory';
+import FeatureManagement from '../components/admin/FeatureManagement';
 
 export default function Admin() {
   const { user } = useAuth();
@@ -61,7 +62,7 @@ export default function Admin() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'settings' | 'publish'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'settings' | 'features' | 'publish'>('products');
   const [isPublishing, setIsPublishing] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -1717,6 +1718,25 @@ Users will now see the updated content.`;
             )}
             <button
               onClick={() => {
+                setActiveTab('features');
+                setShowForm(false);
+                setShowCategoryForm(false);
+                setShowReviewForm(false);
+                setShowOfferForm(false);
+              }}
+              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'features'
+                  ? 'border-b-4 border-purple-500 text-purple-600'
+                  : 'text-gray-600 hover:text-purple-600'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Wrench className="w-4 h-4 sm:w-5 sm:h-5" />
+                Features
+              </div>
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab('settings');
                 setShowForm(false);
                 setShowCategoryForm(false);
@@ -3145,6 +3165,23 @@ Users will now see the updated content.`;
                   </button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'features' && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 sm:p-8 text-white">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <Wrench className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">Feature Management</h2>
+                    <p className="text-white/90 mt-1">Enable or disable store features globally</p>
+                  </div>
+                </div>
+              </div>
+              <FeatureManagement />
             </div>
           )}
 

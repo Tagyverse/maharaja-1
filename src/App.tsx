@@ -6,6 +6,7 @@ import { CartProvider } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { PublishedDataProvider, usePublishedData } from './contexts/PublishedDataContext';
 import { ClientConfigProvider } from './contexts/ClientConfigContext';
+import { FeaturesProvider } from './contexts/FeaturesContext';
 import TopBanner from './components/TopBanner';
 import Navigation from './components/Navigation';
 import LoginModal from './components/LoginModal';
@@ -89,6 +90,7 @@ function getInitialPage(): Page {
   if (path === '/shipping-policy') return 'shipping-policy';
   if (path === '/refund-policy') return 'refund-policy';
   if (path === '/contact') return 'contact';
+  if (path === '/admin' || path === '/admin/') return 'home'; // Admin handled separately, show home as fallback
   return 'home';
 }
 
@@ -458,7 +460,9 @@ function App() {
           <PublishedDataProvider>
             <CartProvider>
               <FavoritesProvider>
-                <AppContent />
+                <FeaturesProvider>
+                  <AppContent />
+                </FeaturesProvider>
               </FavoritesProvider>
             </CartProvider>
           </PublishedDataProvider>
