@@ -102,10 +102,21 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: merged }),
       });
-      if (!pub.ok) throw new Error(`Publish failed (${pub.status})`);
-      showToast('Branding published to Cloudflare! Live in ~5 min.');
+      
+      const pubResult = await pub.json();
+      
+      if (!pub.ok) {
+        throw new Error(pubResult.error || `Publish failed (${pub.status})`);
+      }
+
+      if (pubResult.warning) {
+        console.warn('[REBRAND] Warning:', pubResult.warning);
+        showToast(`Branding saved but: ${pubResult.warning}`);
+      } else {
+        showToast('Branding published to Cloudflare! Live in ~5 min.');
+      }
     } catch (err) {
-      console.error('Publish branding failed:', err);
+      console.error('[REBRAND] Publish failed:', err);
       showToast(err instanceof Error ? err.message : 'Publish failed');
     } finally {
       setPublishing(false);

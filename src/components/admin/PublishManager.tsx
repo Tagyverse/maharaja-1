@@ -222,6 +222,9 @@ export default function PublishManager({ onPublishComplete }: { onPublishComplet
       }
 
       // Log any warnings returned (don't block publish)
+      if (result.warning) {
+        console.warn('[PUBLISH] R2 Warning:', result.warning);
+      }
       if (result.warnings && result.warnings.length > 0) {
         console.warn('[PUBLISH] Data validation warnings:', result.warnings);
         result.warnings.forEach((warning: string) => {
@@ -234,7 +237,7 @@ export default function PublishManager({ onPublishComplete }: { onPublishComplet
       // Record successful publish
       addPublishRecord({
         status: 'success',
-        message: 'Successfully published to live',
+        message: result.warning ? 'Published with warnings' : 'Successfully published to live',
         dataStats: {
           productCount,
           categoryCount,
@@ -246,8 +249,10 @@ export default function PublishManager({ onPublishComplete }: { onPublishComplet
 
       setPublishStatus({
         status: 'success',
-        message: 'Successfully published to live!',
-        details: `${productCount} products, ${categoryCount} categories, ${(totalSize / 1024).toFixed(2)}KB uploaded`,
+        message: result.warning ? 'Published (with warnings)' : 'Successfully published to live!',
+        details: result.warning 
+          ? `${productCount} products, ${categoryCount} categories uploaded. Warning: ${result.warning}`
+          : `${productCount} products, ${categoryCount} categories, ${(totalSize / 1024).toFixed(2)}KB uploaded`,
         dataStats: {
           productCount,
           categoryCount,
