@@ -20,16 +20,25 @@ export async function fetchBusinessConfig(businessId: string = 'default'): Promi
   }
 }
 
-// Save business config to Firebase
+// Save business config to Firebase (preserves existing data - does partial update)
 export async function saveBusinessConfig(businessId: string = 'default', config: Partial<BusinessConfig>): Promise<void> {
   try {
     const configRef = ref(db, `business_config/${businessId}`);
-    const data = {
+    
+    // First, fetch existing config to merge with new data
+    const snapshot = await get(configRef);
+    const existingData = snapshot.exists() ? snapshot.val() : getDefaultBusinessConfig();
+    
+    // Merge existing data with new config (new data overwrites)
+    const mergedData = {
+      ...existingData,
       ...config,
       updated_at: new Date().toISOString(),
       id: businessId
     };
-    await set(configRef, data);
+    
+    // Use set() to save the complete merged data
+    await set(configRef, mergedData);
   } catch (error) {
     console.error('Error saving business config:', error);
     throw error;
@@ -69,17 +78,26 @@ export async function fetchOrderChannel(channelType: 'whatsapp' | 'telegram'): P
   }
 }
 
-// Save order channel config
+// Save order channel config (preserves existing data - does partial update)
 export async function saveOrderChannel(channelType: 'whatsapp' | 'telegram', config: Partial<OrderChannel>): Promise<void> {
   try {
     const channelRef = ref(db, `integrations/${channelType}`);
-    const data = {
+    
+    // First, fetch existing config to merge with new data
+    const snapshot = await get(channelRef);
+    const existingData = snapshot.exists() ? snapshot.val() : getDefaultOrderChannel(channelType);
+    
+    // Merge existing data with new config (new data overwrites)
+    const mergedData = {
+      ...existingData,
       type: channelType,
       ...config,
       updated_at: new Date().toISOString(),
-      enabled: config.enabled !== undefined ? config.enabled : false
+      enabled: config.enabled !== undefined ? config.enabled : (existingData.enabled || false)
     };
-    await set(channelRef, data);
+    
+    // Use set() to save the complete merged data
+    await set(channelRef, mergedData);
   } catch (error) {
     console.error(`Error saving ${channelType} channel config:`, error);
     throw error;
