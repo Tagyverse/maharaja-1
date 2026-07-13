@@ -21,8 +21,20 @@ preview_bucket_name = "srimaharaja-images"
 # Local development environment variables
 # ⚠️ Replace these with your actual keys before deploying
 [vars]
-RAZORPAY_KEY_ID = "YOUR_RAZORPAY_KEY_ID"
-RAZORPAY_KEY_SECRET = "YOUR_RAZORPAY_KEY_SECRET"
-RESEND_API_KEY = "YOUR_RESEND_API_KEY"
+RAZORPAY_KEY_ID = "rzp_test_example_key_id_dev"
+RAZORPAY_KEY_SECRET = "rzp_test_example_key_secret_dev"
+RAZORPAY_WEBHOOK_SECRET = "wh_test_example_webhook_secret_dev"
+RESEND_API_KEY = "re_test_example_api_key"
 FIREBASE_DATABASE_URL = "https://maharajagroups-29c74-default-rtdb.firebaseio.com"
-RAZORPAY_WEBHOOK_SECRET = "YOUR_RAZORPAY_WEBHOOK_SECRET"
+SUPABASE_URL = "https://fqxdxobrtxhpezjzqrnf.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGR4b2JydHhocGV6anpxcm5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0OTkyODIsImV4cCI6MTk0MDc3OTI4Mn0.V-3Jlm0L8x0M9n2p3q4r5s6t7u8v9w0x1y2z3a4b5c"
+R2_BUCKET_NAME = "srimaharaja-images"
+R2_BUCKET_URL = "https://srimaharaja-images.r2.dev"
+
+# Production environment (set in Cloudflare Pages dashboard)
+[env.production]
+vars = { RAZORPAY_KEY_ID = "rzp_live_production_key_id", RAZORPAY_KEY_SECRET = "rzp_live_production_key_secret", RAZORPAY_WEBHOOK_SECRET = "wh_live_production_webhook_secret" }
+
+# Preview environment (for PR previews)
+[env.preview]
+vars = { RAZORPAY_KEY_ID = "rzp_test_example_key_id_preview", RAZORPAY_KEY_SECRET = "rzp_test_example_key_secret_preview" }
