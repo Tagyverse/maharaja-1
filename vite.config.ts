@@ -6,6 +6,47 @@ function apiDevFallback() {
     name: 'api-dev-fallback',
     configureServer(server: any) {
       server.middlewares.use((req: any, res: any, next: any) => {
+        if (req.url?.startsWith('/api/get-published-data')) {
+          // Return empty published data fallback for dev mode
+          res.statusCode = 404;
+          res.setHeader('Content-Type', 'application/json');
+          res.setHeader('Access-Control-Allow-Origin', '*');
+          res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          res.end(JSON.stringify({ error: 'No published data found', fallback: true }));
+          return;
+        }
+        if (req.url?.startsWith('/api/publish-data') && req.method === 'POST') {
+          // Accept publish requests in dev mode
+          let body = '';
+          req.on('data', chunk => {
+            body += chunk.toString();
+          });
+          req.on('end', () => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+            try {
+              const data = JSON.parse(body);
+              const productCount = Object.keys(data.data?.products || {}).length;
+              const categoryCount = Object.keys(data.data?.categories || {}).length;
+              res.end(JSON.stringify({
+                success: true,
+                published_at: new Date().toISOString(),
+                size: body.length,
+                productCount,
+                categoryCount,
+                message: 'Dev mode: Data would be published to R2 on production'
+              }));
+            } catch (e) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: 'Invalid JSON' }));
+            }
+          });
+          return;
+        }
         if (req.url?.startsWith('/api/')) {
           res.statusCode = 404;
           res.setHeader('Content-Type', 'application/json');

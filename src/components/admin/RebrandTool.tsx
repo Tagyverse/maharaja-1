@@ -86,10 +86,23 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
   const handlePublish = async () => {
     setPublishing(true);
     try {
+      console.log('[REBRAND] Fetching current published data...');
       const res = await fetch('/api/get-published-data');
-      if (!res.ok) throw new Error(`Fetch published data failed (${res.status})`);
-      const current = await res.json();
-      if (current.error) throw new Error(current.error);
+      let current = {};
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.error) {
+          console.log('[REBRAND] No published data found, starting fresh');
+          current = {};
+        } else {
+          console.log('[REBRAND] Found existing published data');
+          current = data;
+        }
+      } else {
+        console.log('[REBRAND] Failed to fetch published data (', res.status, '), starting fresh');
+        current = {};
+      }
 
       const merged = {
         ...current,
@@ -97,15 +110,24 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
         published_at: new Date().toISOString(),
       };
 
+      console.log('[REBRAND] Publishing branding to Cloudflare...');
       const pub = await fetch('/api/publish-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: merged }),
       });
-      if (!pub.ok) throw new Error(`Publish failed (${pub.status})`);
+      
+      if (!pub.ok) {
+        const error = await pub.text();
+        console.error('[REBRAND] Publish failed:', error);
+        throw new Error(`Publish failed (${pub.status}): ${error}`);
+      }
+      
+      const pubResult = await pub.json();
+      console.log('[REBRAND] Publish successful:', pubResult);
       showToast('Branding published to Cloudflare! Live in ~5 min.');
     } catch (err) {
-      console.error('Publish branding failed:', err);
+      console.error('[REBRAND] Publish branding failed:', err);
       showToast(err instanceof Error ? err.message : 'Publish failed');
     } finally {
       setPublishing(false);

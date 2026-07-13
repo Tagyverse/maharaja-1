@@ -145,6 +145,10 @@ export async function getPublishedData(): Promise<PublishedData | null> {
           console.log('[R2] No published data found (404), falling back to Firebase');
           return await getDataFromFirebase();
         }
+        if (response.status === 0 || response.statusText === '') {
+          console.warn('[R2] Network error or CORS issue, falling back to Firebase');
+          return await getDataFromFirebase();
+        }
         console.error('[R2] Failed to fetch published data:', response.status, responseText);
         return await getDataFromFirebase();
       }
