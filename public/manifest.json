@@ -1,0 +1,12 @@
+{
+  "name": "Sri Maharaja - Premium Crackers Shop",
+  "short_name": "Sri Maharaja",
+  "description": "Shop premium quality crackers online at best prices",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "icons": [],
+  "categories": ["shopping", "lifestyle"]
+}
