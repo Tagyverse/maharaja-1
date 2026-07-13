@@ -50,12 +50,32 @@ export interface CardDesign {
   textColor?: string;
 }
 
+export interface OrderChannelSettings {
+  whatsappOrders: {
+    enabled: boolean;
+    phoneNumber?: string;
+    message?: string;
+  };
+  telegramOrders: {
+    enabled: boolean;
+    botToken?: string;
+    chatId?: string;
+    notifyAdmin?: boolean;
+  };
+  prepaymentOrders: {
+    enabled: boolean;
+    paymentGateway: 'razorpay' | 'paypal' | 'stripe';
+    gatewayKey?: string;
+  };
+}
+
 export interface BrandingTheme {
   name: string;
   description?: string;
   colors: BrandingColors;
   navigation_settings: NavigationSettings;
   card_design: CardDesign;
+  order_channels?: OrderChannelSettings;
   customCSS?: string;
   fontFamily?: {
     heading: string;
@@ -72,6 +92,7 @@ export interface PublishedBrandingData {
   };
   navigation_settings: NavigationSettings;
   card_design: CardDesign;
+  order_channels?: OrderChannelSettings;
   published_at: string;
   version: string;
   isDefault?: boolean;

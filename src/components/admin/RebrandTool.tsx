@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Paintbrush, Save, UploadCloud, Copy, Check, RotateCcw, Loader2, FileCode2, Palette, Navigation, Layout } from 'lucide-react';
+import { Paintbrush, Save, UploadCloud, Copy, Check, RotateCcw, Loader2, FileCode2, Palette, Navigation, Layout, MessageCircle, Bell, CreditCard, Toggle2 } from 'lucide-react';
 import { db } from '../../lib/firebase';
 import { ref, get, set } from 'firebase/database';
 import { brand } from '../../config/brand';
 import { applyBrandColors } from '../../utils/brandTheme';
 import { brandingPresets } from '../../config/brandingPresets';
-import type { BrandingTheme, PublishedBrandingData } from '../../types/branding';
+import type { BrandingTheme, PublishedBrandingData, OrderChannelSettings } from '../../types/branding';
 
 interface RebrandState {
   name: string;
@@ -21,6 +21,7 @@ interface RebrandState {
     accent: string;
   };
   theme?: BrandingTheme;
+  orderChannels?: OrderChannelSettings;
 }
 
 const defaults: RebrandState = {
@@ -33,7 +34,7 @@ const defaults: RebrandState = {
   colors: { ...brand.colors },
 };
 
-type TabType = 'basic' | 'colors' | 'presets' | 'navigation' | 'cards';
+type TabType = 'basic' | 'colors' | 'presets' | 'navigation' | 'cards' | 'orders';
 
 interface RebrandToolProps {
   showToast: (msg: string) => void;
@@ -213,6 +214,7 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
     { id: 'presets', label: 'Presets', icon: Palette },
     { id: 'navigation', label: 'Navigation', icon: Navigation },
     { id: 'cards', label: 'Cards', icon: Layout },
+    { id: 'orders', label: 'Order Channels', icon: MessageCircle },
   ] as const;
 
   return (
@@ -426,6 +428,211 @@ export default function RebrandTool({ showToast }: RebrandToolProps) {
               )}
             </div>
             <p className="text-xs text-slate-400 text-center">Card settings are included in preset selection</p>
+          </div>
+        )}
+
+        {/* Order Channels Tab */}
+        {activeTab === 'orders' && (
+          <div>
+            <p className="text-xs text-slate-400 mb-6">Enable or disable order channels for your store</p>
+            
+            {/* WhatsApp Orders */}
+            <div className="bg-slate-900/60 border border-slate-600 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4 text-green-400" />
+                  <h4 className="text-sm font-semibold text-white">WhatsApp Orders</h4>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={state.orderChannels?.whatsappOrders?.enabled || false}
+                    onChange={(e) => setState({
+                      ...state,
+                      orderChannels: {
+                        ...state.orderChannels,
+                        whatsappOrders: {
+                          ...state.orderChannels?.whatsappOrders,
+                          enabled: e.target.checked,
+                          phoneNumber: state.orderChannels?.whatsappOrders?.phoneNumber || state.whatsapp || '',
+                        }
+                      }
+                    })}
+                    className="w-4 h-4"
+                  />
+                </label>
+              </div>
+              {state.orderChannels?.whatsappOrders?.enabled && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">WhatsApp Number</label>
+                    <input
+                      type="text"
+                      value={state.orderChannels?.whatsappOrders?.phoneNumber || ''}
+                      onChange={(e) => setState({
+                        ...state,
+                        orderChannels: {
+                          ...state.orderChannels,
+                          whatsappOrders: {
+                            ...state.orderChannels?.whatsappOrders,
+                            phoneNumber: e.target.value,
+                            enabled: true
+                          }
+                        }
+                      })}
+                      placeholder="919876543210"
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded text-sm text-white font-mono focus:outline-none focus:ring-1 focus:ring-green-400"
+                    />
+                  </div>
+                  <p className="text-xs text-slate-400">When enabled, users will be redirected to WhatsApp after cart checkout</p>
+                </div>
+              )}
+            </div>
+
+            {/* Telegram Orders */}
+            <div className="bg-slate-900/60 border border-slate-600 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-blue-400" />
+                  <h4 className="text-sm font-semibold text-white">Telegram Admin Notifications</h4>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={state.orderChannels?.telegramOrders?.enabled || false}
+                    onChange={(e) => setState({
+                      ...state,
+                      orderChannels: {
+                        ...state.orderChannels,
+                        telegramOrders: {
+                          ...state.orderChannels?.telegramOrders,
+                          enabled: e.target.checked,
+                        }
+                      }
+                    })}
+                    className="w-4 h-4"
+                  />
+                </label>
+              </div>
+              {state.orderChannels?.telegramOrders?.enabled && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">Bot Token</label>
+                    <input
+                      type="password"
+                      value={state.orderChannels?.telegramOrders?.botToken || ''}
+                      onChange={(e) => setState({
+                        ...state,
+                        orderChannels: {
+                          ...state.orderChannels,
+                          telegramOrders: {
+                            ...state.orderChannels?.telegramOrders,
+                            botToken: e.target.value,
+                            enabled: true
+                          }
+                        }
+                      })}
+                      placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded text-sm text-white font-mono focus:outline-none focus:ring-1 focus:ring-blue-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">Chat ID</label>
+                    <input
+                      type="text"
+                      value={state.orderChannels?.telegramOrders?.chatId || ''}
+                      onChange={(e) => setState({
+                        ...state,
+                        orderChannels: {
+                          ...state.orderChannels,
+                          telegramOrders: {
+                            ...state.orderChannels?.telegramOrders,
+                            chatId: e.target.value,
+                            enabled: true
+                          }
+                        }
+                      })}
+                      placeholder="-1001234567890"
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded text-sm text-white font-mono focus:outline-none focus:ring-1 focus:ring-blue-400"
+                    />
+                  </div>
+                  <label className="flex items-center gap-2 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={state.orderChannels?.telegramOrders?.notifyAdmin || false}
+                      onChange={(e) => setState({
+                        ...state,
+                        orderChannels: {
+                          ...state.orderChannels,
+                          telegramOrders: {
+                            ...state.orderChannels?.telegramOrders,
+                            notifyAdmin: e.target.checked
+                          }
+                        }
+                      })}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-slate-300">Send admin notifications on new orders</span>
+                  </label>
+                  <p className="text-xs text-slate-400">Admin will receive instant Telegram notifications for each new order</p>
+                </div>
+              )}
+            </div>
+
+            {/* Prepayment Orders */}
+            <div className="bg-slate-900/60 border border-slate-600 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-amber-400" />
+                  <h4 className="text-sm font-semibold text-white">Prepayment Orders</h4>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={state.orderChannels?.prepaymentOrders?.enabled || false}
+                    onChange={(e) => setState({
+                      ...state,
+                      orderChannels: {
+                        ...state.orderChannels,
+                        prepaymentOrders: {
+                          ...state.orderChannels?.prepaymentOrders,
+                          enabled: e.target.checked,
+                          paymentGateway: 'razorpay'
+                        }
+                      }
+                    })}
+                    className="w-4 h-4"
+                  />
+                </label>
+              </div>
+              {state.orderChannels?.prepaymentOrders?.enabled && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-2">Payment Gateway</label>
+                    <select
+                      value={state.orderChannels?.prepaymentOrders?.paymentGateway || 'razorpay'}
+                      onChange={(e) => setState({
+                        ...state,
+                        orderChannels: {
+                          ...state.orderChannels,
+                          prepaymentOrders: {
+                            ...state.orderChannels?.prepaymentOrders,
+                            paymentGateway: e.target.value as 'razorpay' | 'paypal' | 'stripe',
+                            enabled: true
+                          }
+                        }
+                      })}
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded text-sm text-white focus:outline-none focus:ring-1 focus:ring-amber-400"
+                    >
+                      <option value="razorpay">Razorpay</option>
+                      <option value="paypal">PayPal</option>
+                      <option value="stripe">Stripe</option>
+                    </select>
+                  </div>
+                  <p className="text-xs text-slate-400">Enable payment gateway for immediate prepayment orders</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
