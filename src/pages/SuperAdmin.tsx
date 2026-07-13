@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Settings, Palette, Globe, Database, Cloud, Copy, Save, Eye, EyeOff, Shield, Type, Zap, Check, ShoppingBag, Bell, Search, Smartphone, ToggleLeft, BarChart3 } from 'lucide-react';
+import { Settings, Palette, Globe, Database, Cloud, Copy, Save, Eye, EyeOff, Shield, Type, Zap, Check, ShoppingBag, Bell, Search, Smartphone, ToggleLeft, BarChart3, Zap as Live } from 'lucide-react';
 import { db } from '../lib/firebase';
-import { ref, get, set } from 'firebase/database';
+import { ref, get, set, onValue } from 'firebase/database';
 import { brand } from '../config/brand';
 import RebrandTool from '../components/admin/RebrandTool';
+import { applyBrandColors } from '../utils/brandTheme';
 
 interface BrandConfig {
   brand_name: string;
@@ -527,12 +528,73 @@ export default function SuperAdmin() {
     setSaving(true);
     try {
       await set(ref(db, `super_admin_config/${section}`), { ...data, updated_at: new Date().toISOString() });
+      
+      // Apply theme changes in real-time
+      if (section === 'theme') {
+        applyBrandColors({
+          primary: data.primary_color,
+          primaryLight: data.primary_color,
+          primaryDark: data.primary_color,
+          accent: data.accent_color,
+        });
+        console.log('[SUPERADMIN] Theme applied in real-time');
+      }
+      
+      // Auto-publish if enabled
+      if (deployment.auto_publish && section === 'theme') {
+        console.log('[SUPERADMIN] Auto-publishing theme changes...');
+        await publishConfigToR2();
+      }
+      
       showToastMsg(`${section.charAt(0).toUpperCase() + section.slice(1)} saved!`);
     } catch (error) {
       console.error(`Failed to save ${section}:`, error);
       showToastMsg(`Failed to save ${section}`);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const publishConfigToR2 = async () => {
+    try {
+      console.log('[SUPERADMIN] Publishing configuration to R2...');
+      const publishData = {
+        branding: {
+          name: brand.name,
+          colors: {
+            primary: theme.primary_color,
+            primaryLight: theme.primary_color,
+            primaryDark: theme.primary_color,
+            accent: theme.accent_color,
+          },
+        },
+        navigation_settings: {
+          background: theme.navbar_color,
+          text: theme.text_primary,
+          activeTab: theme.primary_color,
+          inactiveButton: theme.surface_color,
+          borderRadius: theme.button_style === 'pill' ? 'full' : theme.button_style === 'square' ? 'none' : 'md',
+          buttonSize: 'md',
+          themeMode: 'default',
+          buttonLabels: { home: 'Home', shop: 'Shop All', search: 'Search', cart: 'Cart', myOrders: 'My Orders', login: 'Login', signOut: 'Sign Out', admin: 'Admin' }
+        },
+        published_at: new Date().toISOString(),
+      };
+      
+      const res = await fetch('/api/publish-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: publishData }),
+      });
+      
+      if (res.ok) {
+        console.log('[SUPERADMIN] Configuration published successfully');
+        showToastMsg('Configuration published to R2!');
+      } else {
+        console.error('[SUPERADMIN] Publish failed:', await res.text());
+      }
+    } catch (error) {
+      console.error('[SUPERADMIN] Error publishing:', error);
     }
   };
 
@@ -774,22 +836,23 @@ export default function SuperAdmin() {
             )}
 
             {activeTab === 'theme' && (
-              <ConfigSection title="Theme & Design" desc="Colors, fonts, presets, component styles" onSave={() => saveSection('theme', theme)} saving={saving}>
-                <div className="mb-5">
-                  <h3 className="text-xs font-semibold text-slate-300 mb-2">Quick Presets</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {Object.entries(themePresets).map(([name, preset]) => (
-                      <button key={name} onClick={() => setTheme({ ...theme, ...preset })} className="flex items-center gap-2 px-3 py-2 bg-slate-800 rounded-lg border border-slate-700 hover:border-cyan-500/50 transition-all text-left">
-                        <div className="flex gap-0.5">
-                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.primary_color }} />
-                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.secondary_color }} />
-                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.accent_color }} />
-                        </div>
-                        <span className="text-[10px] font-medium text-slate-300">{name}</span>
-                      </button>
-                    ))}
+              <div className="space-y-4">
+                <ConfigSection title="Theme & Design" desc="Colors, fonts, presets, component styles" onSave={() => saveSection('theme', theme)} saving={saving}>
+                  <div className="mb-5">
+                    <h3 className="text-xs font-semibold text-slate-300 mb-2">Quick Presets</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                      {Object.entries(themePresets).map(([name, preset]) => (
+                        <button key={name} onClick={() => setTheme({ ...theme, ...preset })} className="flex items-center gap-2 px-3 py-2 bg-slate-800 rounded-lg border border-slate-700 hover:border-cyan-500/50 transition-all text-left">
+                          <div className="flex gap-0.5">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.primary_color }} />
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.secondary_color }} />
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: preset.accent_color }} />
+                          </div>
+                          <span className="text-[10px] font-medium text-slate-300">{name}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
                   <ColorField label="Primary" value={theme.primary_color} onChange={(v) => setTheme({ ...theme, primary_color: v })} />
                   <ColorField label="Secondary" value={theme.secondary_color} onChange={(v) => setTheme({ ...theme, secondary_color: v })} />
@@ -819,7 +882,28 @@ export default function SuperAdmin() {
                     ))}
                   </div>
                 </div>
-              </ConfigSection>
+                </ConfigSection>
+                
+                <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border border-green-700/50 rounded-xl p-5">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-green-300 flex items-center gap-2 mb-1">
+                        <Live className="w-4 h-4" />
+                        Live Theme Publishing
+                      </h3>
+                      <p className="text-xs text-slate-400">Publish your theme changes immediately to all live sites</p>
+                    </div>
+                    <button onClick={() => publishConfigToR2()} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-all disabled:opacity-50 text-sm">
+                      <Zap className="w-4 h-4" />
+                      {saving ? 'Publishing...' : 'Publish Now'}
+                    </button>
+                  </div>
+                  <div className="mt-3 text-xs text-slate-400 space-y-1">
+                    <p>• Changes will be live in real-time on all active sites</p>
+                    <p>• Auto-publish is {deployment.auto_publish ? 'enabled' : 'disabled'} in Deployment settings</p>
+                  </div>
+                </div>
+              </div>
             )}
 
             {activeTab === 'ecommerce' && (
