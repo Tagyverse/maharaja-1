@@ -227,6 +227,8 @@ export default function Admin() {
     localStorage.removeItem('adminAuthenticated');
     setAdminId('');
     setAdminPassword('');
+    // Redirect to home page after logout
+    window.location.href = '/';
   };
 
   const fetchData = async () => {
