@@ -25,6 +25,8 @@ import { brand } from './config/brand';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ComingSoon from './pages/ComingSoon';
+import Admin from './pages/Admin';
+import SuperAdmin from './pages/SuperAdmin';
 import { useFeatureFlags } from './hooks/useFeatureFlags';
 // Lazy load heavy pages for better initial load performance
 const Checkout = lazy(() => import('./pages/Checkout'));
@@ -38,7 +40,7 @@ import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 import { AppInitializer } from './components/AppInitializer';
 
-type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact';
+type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact' | 'admin' | 'superadmin';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -89,6 +91,8 @@ function getInitialPage(): Page {
   if (path === '/shipping-policy') return 'shipping-policy';
   if (path === '/refund-policy') return 'refund-policy';
   if (path === '/contact') return 'contact';
+  if (path === '/admin') return 'admin';
+  if (path === '/superadmin') return 'superadmin';
   return 'home';
 }
 
@@ -133,8 +137,8 @@ function AppContentInner() {
     setPrevUser(user);
   }, [user]);
 
-  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact';
-  const isAdminPage = false;
+  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact' || currentPage === 'admin' || currentPage === 'superadmin';
+  const isAdminPage = currentPage === 'admin' || currentPage === 'superadmin';
 
   useEffect(() => {
     // Enable smooth scrolling
@@ -286,6 +290,10 @@ function AppContentInner() {
             <Contact onBack={() => handleNavigate('home')} />
           </Suspense>
         );
+      case 'admin':
+        return <Admin />;
+      case 'superadmin':
+        return <SuperAdmin />;
       default:
         return <Home onNavigate={handleNavigate} onCartClick={() => setCartModalOpen(true)} navigationSlot={navigationElement} />;
     }
