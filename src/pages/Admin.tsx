@@ -40,7 +40,11 @@ import { addPublishRecord } from '../utils/publishHistory';
 import FeatureManagement from '../components/admin/FeatureManagement';
 import ChangeBusiness from '../components/admin/ChangeBusiness';
 
-export default function Admin() {
+interface AdminProps {
+  activeTab?: string;
+}
+
+export default function Admin({ activeTab: initialTab }: AdminProps) {
   const { user } = useAuth();
   const isDevelopment = import.meta.env.DEV;
 
@@ -63,7 +67,9 @@ export default function Admin() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'change-business' | 'settings' | 'features' | 'publish'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'change-business' | 'settings' | 'features' | 'publish'>(
+    (initialTab === 'change-business' ? 'change-business' : 'products') as any
+  );
   const [isPublishing, setIsPublishing] = useState(false);
   const [lastPublished, setLastPublished] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);

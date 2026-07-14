@@ -40,7 +40,7 @@ import { initFetchInterceptor } from './utils/fetchInterceptor';
 import { enableSmoothScrollCSS } from './utils/smoothScroll';
 import { AppInitializer } from './components/AppInitializer';
 
-type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact' | 'admin';
+type Page = 'home' | 'shop' | 'checkout' | 'privacy-policy' | 'shipping-policy' | 'refund-policy' | 'contact' | 'admin' | 'change-business';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -92,6 +92,7 @@ function getInitialPage(): Page {
   if (path === '/refund-policy') return 'refund-policy';
   if (path === '/contact') return 'contact';
   if (path === '/admin' || path === '/admin/') return 'admin';
+  if (path === '/changebusiness' || path === '/changebusiness/') return 'change-business';
   return 'home';
 }
 
@@ -136,8 +137,8 @@ function AppContentInner() {
     setPrevUser(user);
   }, [user]);
 
-  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact' || currentPage === 'admin';
-  const isAdminPage = currentPage === 'admin';
+  const hideNavigation = currentPage === 'checkout' || currentPage === 'contact' || currentPage === 'admin' || currentPage === 'change-business';
+  const isAdminPage = currentPage === 'admin' || currentPage === 'change-business';
 
   useEffect(() => {
     // Enable smooth scrolling
@@ -290,9 +291,10 @@ function AppContentInner() {
           </Suspense>
         );
       case 'admin':
+      case 'change-business':
         return (
           <Suspense fallback={<LoadingFallback />}>
-            <Admin />
+            <Admin activeTab={currentPage === 'change-business' ? 'change-business' : undefined} />
           </Suspense>
         );
       default:
