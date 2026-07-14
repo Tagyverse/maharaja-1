@@ -3,7 +3,7 @@
 ## Current Admin Credentials
 
 **Admin ID:** `admin`  
-**Admin Password:** `SecureAdmin@2024`
+**Admin Password:** ` and both dark theme `
 
 ## How to Login
 
