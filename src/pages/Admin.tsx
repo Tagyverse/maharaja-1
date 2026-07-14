@@ -2007,71 +2007,71 @@ Users will now see the updated content.`;
               )}
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
-                <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
                   <input
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-teal-300 text-teal-600 focus:ring-teal-500"
+                    className="w-5 h-5 rounded border-2 border-slate-500 text-cyan-500 focus:ring-cyan-500"
                   />
-                  <span className="text-sm font-semibold text-gray-700">Featured Product</span>
+                  <span className="text-sm font-semibold text-slate-300">Featured Product</span>
                 </label>
 
-                <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-green-500 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20">
                   <input
                     type="checkbox"
                     checked={formData.in_stock}
                     onChange={(e) => setFormData({ ...formData, in_stock: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-teal-300 text-teal-600 focus:ring-teal-500"
+                    className="w-5 h-5 rounded border-2 border-slate-500 text-green-500 focus:ring-green-500"
                   />
-                  <span className="text-sm font-semibold text-gray-700">In Stock</span>
+                  <span className="text-sm font-semibold text-slate-300">In Stock</span>
                 </label>
 
-                <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
                   <input
                     type="checkbox"
                     checked={formData.best_selling}
                     onChange={(e) => setFormData({ ...formData, best_selling: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-teal-300 text-teal-600 focus:ring-teal-500"
+                    className="w-5 h-5 rounded border-2 border-slate-500 text-blue-500 focus:ring-blue-500"
                   />
-                  <span className="text-sm font-semibold text-gray-700">Best Selling</span>
+                  <span className="text-sm font-semibold text-slate-300">Best Selling</span>
                 </label>
 
-                <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-purple-500 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
                   <input
                     type="checkbox"
                     checked={formData.might_you_like}
                     onChange={(e) => setFormData({ ...formData, might_you_like: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-teal-300 text-teal-600 focus:ring-teal-500"
+                    className="w-5 h-5 rounded border-2 border-slate-500 text-purple-500 focus:ring-purple-500"
                   />
-                  <span className="text-sm font-semibold text-gray-700">Might You Like</span>
+                  <span className="text-sm font-semibold text-slate-300">Might You Like</span>
                 </label>
               </div>
 
-              <div className="mb-4 bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Eye className="w-5 h-5 text-purple-600" />
+              <div className="mb-4 bg-gradient-to-br from-slate-700 to-slate-800 p-6 rounded-2xl border-2 border-purple-600 shadow-lg">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <Eye className="w-5 h-5 text-purple-400" />
                   Virtual Try-On Settings
                 </h3>
 
-                <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-purple-200 mb-4">
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-purple-500 transition-all duration-300 mb-4 hover:shadow-lg hover:shadow-purple-500/20">
                   <input
                     type="checkbox"
                     checked={formData.try_on_enabled}
                     onChange={(e) => setFormData({ ...formData, try_on_enabled: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-purple-300 text-purple-600 focus:ring-purple-500"
+                    className="w-5 h-5 rounded border-2 border-slate-500 text-purple-500 focus:ring-purple-500"
                   />
-                  <span className="text-sm font-semibold text-gray-700">Enable Virtual Try-On</span>
+                  <span className="text-sm font-semibold text-slate-300">Enable Virtual Try-On</span>
                 </label>
 
                 {formData.try_on_enabled && (
                   <>
                     <div className="mb-4">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Hairclip Type</label>
+                      <label className="block text-sm font-semibold text-slate-300 mb-2">Hairclip Type</label>
                       <select
                         value={formData.hairclip_type}
                         onChange={(e) => setFormData({ ...formData, hairclip_type: e.target.value as any })}
-                        className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                       >
                         <option value="top">Top Clip</option>
                         <option value="side">Side Clip</option>
@@ -2079,7 +2079,7 @@ Users will now see the updated content.`;
                         <option value="headband">Headband</option>
                         <option value="full">Full Coverage</option>
                       </select>
-                      <p className="text-xs text-gray-500 mt-1">Select the type of hairclip for proper positioning</p>
+                      <p className="text-xs text-slate-400 mt-1">Select the type of hairclip for proper positioning</p>
                     </div>
 
                     <ImageUpload
@@ -2092,22 +2092,22 @@ Users will now see the updated content.`;
                 )}
               </div>
 
-              <div className="mb-4 bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-2xl border-2 border-pink-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Palette className="w-5 h-5 text-pink-600" />
+              <div className="mb-4 bg-gradient-to-br from-slate-700 to-slate-800 p-6 rounded-2xl border-2 border-pink-600 shadow-lg">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <Palette className="w-5 h-5 text-pink-400" />
                   Color Matching for Dress
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-slate-300 mb-4">
                   Add colors available for this product to enable the "Match Your Dress" feature. Customers can upload their dress photo to find accessories with matching colors.
                 </p>
 
                 <div className="space-y-3">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Available Colors</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Available Colors</label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       placeholder="Enter a color (e.g., red, blue, pink)"
-                      className="flex-1 px-4 py-3 border-2 border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="flex-1 px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300"
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault();
@@ -2136,12 +2136,12 @@ Users will now see the updated content.`;
                           input.value = '';
                         }
                       }}
-                      className="bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-pink-600 transition-colors"
+                      className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-pink-500/50 transform hover:scale-105"
                     >
                       Add
                     </button>
                   </div>
-                  <p className="text-xs text-gray-500">Press Enter or click Add to add a color</p>
+                  <p className="text-xs text-slate-400">Press Enter or click Add to add a color</p>
 
                   {formData.availableColors.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
