@@ -1,5 +1,5 @@
 import { ref, push, set, get, update, query, orderByChild, equalTo } from 'firebase/database';
-import { db } from '../config/firebase';
+import { db } from '../lib/firebase';
 import type { Order, OrderStats } from '../types/orders';
 
 const ORDERS_PATH = 'orders';

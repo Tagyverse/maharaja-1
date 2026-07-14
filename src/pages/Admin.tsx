@@ -1649,6 +1649,25 @@ Users will now see the updated content.`;
             </button>
             <button
               onClick={() => {
+                setActiveTab('orders');
+                setShowForm(false);
+                setShowCategoryForm(false);
+                setShowReviewForm(false);
+                setShowOfferForm(false);
+              }}
+              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'orders'
+                  ? 'border-b-4 border-orange-500 text-orange-600'
+                  : 'text-gray-600 hover:text-orange-600'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+                Orders
+              </div>
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab('footer');
                 setShowForm(false);
                 setShowCategoryForm(false);
