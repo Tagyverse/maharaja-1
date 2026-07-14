@@ -25,7 +25,6 @@ import FooterManager from '../components/admin/FooterManager';
 import OrderChannelsManager from '../components/admin/OrderChannelsManager';
 import ColorPicker from '../components/admin/ColorPicker';
 import AIAgentManager from '../components/admin/AIAgentManager';
-import UpgradeBanner from '../components/admin/UpgradeBanner';
 import R2GalleryManager from '../components/admin/R2GalleryManager';
 import BillCustomizer from '../components/admin/BillCustomizer';
 import PreviewModal from '../components/admin/PreviewModal';
@@ -1235,18 +1234,18 @@ Users will now see the updated content.`;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-mint-50 py-4 sm:py-8 px-2 sm:px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-4 sm:py-8 px-2 sm:px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8">
+        <div className="bg-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8 border border-slate-700 backdrop-blur-sm bg-opacity-80 transition-all duration-300">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <div>
-              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Admin Panel</h1>
-              <p className="text-xs sm:text-base text-gray-600">Manage your products and categories</p>
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white mb-1 sm:mb-2">Admin Panel</h1>
+              <p className="text-xs sm:text-base text-slate-400">Manage your products and categories</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
               <button
                 onClick={() => setShowPreviewModal(true)}
-                className="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-xl text-xs sm:text-sm"
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-cyan-500/50 text-xs sm:text-sm transform hover:scale-105"
               >
                 <Eye className="w-4 h-4" />
                 <span className="hidden sm:inline">Preview Changes</span>
@@ -1255,7 +1254,7 @@ Users will now see the updated content.`;
               <button
                 onClick={handlePublish}
                 disabled={isPublishing}
-                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
+                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm transform hover:scale-105"
               >
                 {isPublishing ? (
                   <>
@@ -1272,7 +1271,7 @@ Users will now see the updated content.`;
               </button>
               <button
                 onClick={handleAdminLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-semibold transition-colors flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm"
+                className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm shadow-lg hover:shadow-red-500/50 transform hover:scale-105"
               >
                 <X className="w-4 h-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -1281,7 +1280,7 @@ Users will now see the updated content.`;
           </div>
 
           {lastPublished && (
-            <div className="mb-4 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700">
+            <div className="mb-4 px-4 py-2 bg-green-950 border border-green-700 rounded-lg text-sm text-green-300 animate-pulse">
               Last published: {new Date(lastPublished).toLocaleString()}
             </div>
           )}
@@ -1291,7 +1290,7 @@ Users will now see the updated content.`;
               <button
                 onClick={validateCurrentData}
                 disabled={isValidating}
-                className="mb-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-lg hover:shadow-blue-500/50 transform hover:scale-105"
               >
                 {isValidating ? (
                   <>
@@ -1311,8 +1310,6 @@ Users will now see the updated content.`;
             <PublishHistoryPanel refreshTrigger={historyRefresh} />
           </div>
 
-          <UpgradeBanner />
-
           {/* Mobile: Select dropdown for navigation */}
           <div className="block lg:hidden mb-4">
             <select
@@ -1324,7 +1321,7 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-teal-500 appearance-none"
+              className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-sm font-semibold text-white focus:outline-none focus:border-cyan-500 appearance-none transition-all duration-300 shadow-lg"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
             >
               <option value="products">Products</option>
@@ -1353,7 +1350,7 @@ Users will now see the updated content.`;
           </div>
 
           {/* Desktop: Scrollable tab bar */}
-          <div className="hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-gray-200 overflow-x-auto pb-0">
+          <div className="hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-slate-700 overflow-x-auto pb-0">
             <button
               onClick={() => {
                 setActiveTab('products');
@@ -1362,10 +1359,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'products'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-cyan-500 text-cyan-400 shadow-lg shadow-cyan-500/20'
+                  : 'text-slate-400 hover:text-cyan-400'
               }`}
             >
               Products
@@ -1378,10 +1375,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'categories'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-purple-500 text-purple-400 shadow-lg shadow-purple-500/20'
+                  : 'text-slate-400 hover:text-purple-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1397,10 +1394,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'offers'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-orange-500 text-orange-400 shadow-lg shadow-orange-500/20'
+                  : 'text-slate-400 hover:text-orange-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1416,10 +1413,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'carousel'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-cyan-500 text-cyan-400 shadow-lg shadow-cyan-500/20'
+                  : 'text-slate-400 hover:text-cyan-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1435,10 +1432,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'marquee'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-pink-500 text-pink-400 shadow-lg shadow-pink-500/20'
+                  : 'text-slate-400 hover:text-pink-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1454,10 +1451,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'video-sections'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-red-500 text-red-400 shadow-lg shadow-red-500/20'
+                  : 'text-slate-400 hover:text-red-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1473,10 +1470,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'sections'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-indigo-500 text-indigo-400 shadow-lg shadow-indigo-500/20'
+                  : 'text-slate-400 hover:text-indigo-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1492,10 +1489,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'card-design'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-violet-500 text-violet-400 shadow-lg shadow-violet-500/20'
+                  : 'text-slate-400 hover:text-violet-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1511,10 +1508,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'banner-social'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-amber-500 text-amber-400 shadow-lg shadow-amber-500/20'
+                  : 'text-slate-400 hover:text-amber-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1530,10 +1527,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'navigation'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-sky-500 text-sky-400 shadow-lg shadow-sky-500/20'
+                  : 'text-slate-400 hover:text-sky-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1549,10 +1546,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'coupons'
-                  ? 'border-b-4 border-purple-500 text-purple-600'
-                  : 'text-gray-600 hover:text-purple-600'
+                  ? 'border-b-4 border-fuchsia-500 text-fuchsia-400 shadow-lg shadow-fuchsia-500/20'
+                  : 'text-slate-400 hover:text-fuchsia-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1568,10 +1565,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'bulk-operations'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-teal-500 text-teal-400 shadow-lg shadow-teal-500/20'
+                  : 'text-slate-400 hover:text-teal-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1587,10 +1584,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'try-on'
-                  ? 'border-b-4 border-pink-500 text-pink-600'
-                  : 'text-gray-600 hover:text-pink-600'
+                  ? 'border-b-4 border-rose-500 text-rose-400 shadow-lg shadow-rose-500/20'
+                  : 'text-slate-400 hover:text-rose-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1606,10 +1603,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'tax'
-                  ? 'border-b-4 border-green-500 text-green-600'
-                  : 'text-gray-600 hover:text-green-600'
+                  ? 'border-b-4 border-lime-500 text-lime-400 shadow-lg shadow-lime-500/20'
+                  : 'text-slate-400 hover:text-lime-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1625,10 +1622,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'order-channels'
-                  ? 'border-b-4 border-purple-500 text-purple-600'
-                  : 'text-gray-600 hover:text-purple-600'
+                  ? 'border-b-4 border-purple-500 text-purple-400 shadow-lg shadow-purple-500/20'
+                  : 'text-slate-400 hover:text-purple-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1644,10 +1641,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'footer'
-                  ? 'border-b-4 border-blue-500 text-blue-600'
-                  : 'text-gray-600 hover:text-blue-600'
+                  ? 'border-b-4 border-blue-500 text-blue-400 shadow-lg shadow-blue-500/20'
+                  : 'text-slate-400 hover:text-blue-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1663,10 +1660,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'ai-assistant'
-                  ? 'border-b-4 border-purple-500 text-purple-600'
-                  : 'text-gray-600 hover:text-purple-600'
+                  ? 'border-b-4 border-emerald-500 text-emerald-400 shadow-lg shadow-emerald-500/20'
+                  : 'text-slate-400 hover:text-emerald-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1682,10 +1679,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'gallery'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-cyan-500 text-cyan-400 shadow-lg shadow-cyan-500/20'
+                  : 'text-slate-400 hover:text-cyan-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1702,10 +1699,10 @@ Users will now see the updated content.`;
                   setShowReviewForm(false);
                   setShowOfferForm(false);
                 }}
-                className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+                className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                   activeTab === 'bill-customizer'
-                    ? 'border-b-4 border-orange-500 text-orange-600'
-                    : 'text-gray-600 hover:text-orange-600'
+                    ? 'border-b-4 border-orange-500 text-orange-400 shadow-lg shadow-orange-500/20'
+                    : 'text-slate-400 hover:text-orange-400'
                 }`}
                 title="Authorized admin only"
               >
@@ -1723,10 +1720,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'settings'
-                  ? 'border-b-4 border-teal-500 text-teal-600'
-                  : 'text-gray-600 hover:text-teal-600'
+                  ? 'border-b-4 border-slate-500 text-slate-300 shadow-lg shadow-slate-500/20'
+                  : 'text-slate-400 hover:text-slate-300'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1742,10 +1739,10 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className={`pb-4 px-4 sm:px-6 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              className={`pb-4 px-4 sm:px-6 font-bold transition-all duration-300 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'publish'
-                  ? 'border-b-4 border-green-500 text-green-600'
-                  : 'text-gray-600 hover:text-green-600'
+                  ? 'border-b-4 border-green-500 text-green-400 shadow-lg shadow-green-500/20'
+                  : 'text-slate-400 hover:text-green-400'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1760,7 +1757,7 @@ Users will now see the updated content.`;
               <div className="flex justify-end mb-6">
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className="flex items-center gap-2 bg-teal-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 border-2 border-cyan-600 shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105"
                 >
                   {showForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                   {showForm ? 'Cancel' : 'Add Product'}
@@ -1768,32 +1765,32 @@ Users will now see the updated content.`;
               </div>
 
           {showForm && (
-            <form onSubmit={handleSubmit} className="bg-teal-50 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-teal-200">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+            <form onSubmit={handleSubmit} className="bg-slate-700 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-slate-600 shadow-xl backdrop-blur-sm">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Product Name</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Categories (Select Multiple)</label>
-                  <div className="bg-white border-2 border-teal-200 rounded-xl p-4 max-h-64 overflow-y-auto">
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Categories (Select Multiple)</label>
+                  <div className="bg-slate-700 border-2 border-slate-600 rounded-xl p-4 max-h-64 overflow-y-auto">
                     {categories.length === 0 ? (
-                      <p className="text-gray-500 text-sm">No categories available. Please create a category first.</p>
+                      <p className="text-slate-500 text-sm">No categories available. Please create a category first.</p>
                     ) : (
                       <div className="space-y-2">
                         {categories.map(cat => (
-                          <label key={cat.id} className="flex items-center gap-3 p-2 hover:bg-teal-50 rounded-lg cursor-pointer">
+                          <label key={cat.id} className="flex items-center gap-3 p-2 hover:bg-slate-600 rounded-lg cursor-pointer transition-colors duration-200">
                             <input
                               type="checkbox"
                               checked={formData.category_ids.includes(cat.id)}
@@ -1803,28 +1800,39 @@ Users will now see the updated content.`;
                                   : formData.category_ids.filter(id => id !== cat.id);
                                 setFormData({ ...formData, category_ids: newCategoryIds });
                               }}
-                              className="w-5 h-5 text-teal-500 border-2 border-teal-200 rounded focus:ring-2 focus:ring-teal-500"
+                              className="w-5 h-5 text-cyan-500 border-2 border-slate-600 rounded focus:ring-2 focus:ring-cyan-500"
                             />
-                            <span className="text-sm font-medium text-gray-700">{cat.name}</span>
+                            <span className="text-sm font-medium text-slate-300">{cat.name}</span>
                           </label>
                         ))}
                       </div>
                     )}
                   </div>
                   {formData.category_ids.length === 0 && (
-                    <p className="text-red-500 text-xs mt-1">Please select at least one category</p>
+                    <p className="text-red-400 text-xs mt-1">Please select at least one category</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Price (���)</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Price (₹)</label>
                   <input
                     type="number"
                     step="0.01"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Compare Price (₹)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.compare_at_price}
+                    onChange={(e) => setFormData({ ...formData, compare_at_price: parseFloat(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                   />
                 </div>
 
@@ -1846,15 +1854,15 @@ Users will now see the updated content.`;
                 />
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Video URL (Optional)</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Video URL (Optional)</label>
                   <input
                     type="url"
                     value={formData.video_url}
                     onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     placeholder="https://example.com/video.mp4"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Add a video URL for the product</p>
+                  <p className="text-xs text-slate-500 mt-1">Add a video URL for the product</p>
                 </div>
               </div>
 
@@ -1867,19 +1875,19 @@ Users will now see the updated content.`;
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Available Sizes (Optional)</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Available Sizes (Optional)</label>
                   <input
                     type="text"
                     value={formData.sizes.join(', ')}
@@ -1890,10 +1898,10 @@ Users will now see the updated content.`;
                         sizes: newSizes
                       });
                     }}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     placeholder="S, M, L, XL or 24, 26, 28"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Enter sizes separated by commas</p>
+                  <p className="text-xs text-slate-500 mt-1">Enter sizes separated by commas</p>
                 </div>
 
                 <ColorPicker
@@ -1905,11 +1913,11 @@ Users will now see the updated content.`;
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                 {formData.sizes && formData.sizes.filter(s => s.length > 0).length > 0 && (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Default Size (Optional)</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Default Size (Optional)</label>
                     <select
                       value={formData.default_size}
                       onChange={(e) => setFormData({ ...formData, default_size: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     >
                       <option value="">None (Customer must select)</option>
                       {formData.sizes.filter(s => s.length > 0).map((size, idx) => (
@@ -1922,11 +1930,11 @@ Users will now see the updated content.`;
 
                 {formData.colors && formData.colors.filter(c => c.length > 0).length > 0 && (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Default Color (Optional)</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Default Color (Optional)</label>
                     <select
                       value={formData.default_color}
                       onChange={(e) => setFormData({ ...formData, default_color: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300"
                     >
                       <option value="">None (Customer must select)</option>
                       {formData.colors.filter(c => c.length > 0).map((color, idx) => (
@@ -1940,9 +1948,9 @@ Users will now see the updated content.`;
 
               {formData.sizes && formData.sizes.filter(s => s.length > 0).length > 0 && (
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 mb-3">Size-Based Pricing (Optional)</label>
-                  <div className="bg-white border-2 border-teal-200 rounded-xl p-4 space-y-3">
-                    <p className="text-xs text-gray-500 mb-3">Set different prices for each size. Leave empty to use the default price above.</p>
+                  <label className="block text-sm font-semibold text-slate-300 mb-3">Size-Based Pricing (Optional)</label>
+                  <div className="bg-slate-700 border-2 border-slate-600 rounded-xl p-4 space-y-3">
+                    <p className="text-xs text-slate-400 mb-3">Set different prices for each size. Leave empty to use the default price above.</p>
                     {formData.sizes.filter(s => s.length > 0).map((size, index) => (
                       <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
                         <div className="flex items-center gap-2">
