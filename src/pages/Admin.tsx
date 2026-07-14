@@ -1234,18 +1234,18 @@ Users will now see the updated content.`;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-4 sm:py-8 px-2 sm:px-4">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8 px-2 sm:px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-slate-800/40 rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8 border border-slate-700/50 backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-slate-600/20">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4 pb-4 border-b border-slate-700/50">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8 border border-gray-200 transition-all duration-300 hover:shadow-md">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4 pb-4 border-b border-gray-200">
             <div className="animate-fadeIn">
-              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">Admin Panel</h1>
-              <p className="text-xs sm:text-base text-slate-400">Manage your products and categories</p>
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Admin Panel</h1>
+              <p className="text-xs sm:text-base text-gray-600">Manage your products and categories</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
               <button
                 onClick={() => setShowPreviewModal(true)}
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-cyan-500/50 text-xs sm:text-sm transform hover:scale-105 active:scale-95"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-sm text-xs sm:text-sm"
               >
                 <Eye className="w-4 h-4" />
                 <span className="hidden sm:inline">Preview Changes</span>
@@ -1254,7 +1254,7 @@ Users will now see the updated content.`;
               <button
                 onClick={handlePublish}
                 disabled={isPublishing}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm transform hover:scale-105 active:scale-95"
+                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
               >
                 {isPublishing ? (
                   <>
@@ -1271,7 +1271,7 @@ Users will now see the updated content.`;
               </button>
               <button
                 onClick={handleAdminLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm shadow-lg hover:shadow-red-500/50 transform hover:scale-105"
+                className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm shadow-sm"
               >
                 <X className="w-4 h-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -1280,8 +1280,8 @@ Users will now see the updated content.`;
           </div>
 
           {lastPublished && (
-            <div className="mb-4 px-4 py-2 bg-green-950 border border-green-700 rounded-lg text-sm text-green-300 animate-pulse">
-              Last published: {new Date(lastPublished).toLocaleString()}
+            <div className="mb-4 px-4 py-2 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+              ✓ Last published: {new Date(lastPublished).toLocaleString()}
             </div>
           )}
 
@@ -1290,7 +1290,7 @@ Users will now see the updated content.`;
               <button
                 onClick={validateCurrentData}
                 disabled={isValidating}
-                className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-lg hover:shadow-blue-500/50 transform hover:scale-105"
+                className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-sm"
               >
                 {isValidating ? (
                   <>
