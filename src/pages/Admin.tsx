@@ -1349,7 +1349,8 @@ Users will now see the updated content.`;
             </select>
           </div>
 
-          {/* Desktop: Scrollable tab bar */}\n          <div className=\"hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-gradient-to-r from-slate-700 via-slate-600 to-slate-700 overflow-x-auto pb-0\">
+          {/* Desktop: Scrollable tab bar */}
+          <div className="hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-gradient-to-r from-slate-700 via-slate-600 to-slate-700 overflow-x-auto pb-0">
             <button
               onClick={() => {
                 setActiveTab('products');
