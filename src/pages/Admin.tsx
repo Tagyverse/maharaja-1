@@ -3,7 +3,7 @@
 import React from "react"
 
 import { useEffect, useState } from 'react';
-import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2, Send, Store } from 'lucide-react';
+import { Plus, CreditCard as Edit2, Trash2, Save, X, FolderOpen, Video, Star, CheckCircle, XCircle, MessageSquare, Megaphone, Settings, ShoppingBag, Package, Truck, FileText, Image as ImageIcon, Type, Eye, EyeOff, Heart, Layers, Palette, Share2, Tag, Users, Receipt, Footprints, Brain, Wrench, Upload, Loader2, Send, Store, ShoppingCart } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { ref, get, set, update, remove, push } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext';
@@ -39,6 +39,7 @@ import PublishManager from '../components/admin/PublishManager';
 import { addPublishRecord } from '../utils/publishHistory';
 import FeatureManagement from '../components/admin/FeatureManagement';
 import ChangeBusiness from '../components/admin/ChangeBusiness';
+import OrdersManagement from '../components/admin/OrdersManagement';
 
 interface AdminProps {
   activeTab?: string;
@@ -67,7 +68,7 @@ export default function Admin({ activeTab: initialTab }: AdminProps) {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'change-business' | 'settings' | 'features' | 'publish'>(
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'offers' | 'carousel' | 'marquee' | 'video-sections' | 'sections' | 'card-design' | 'banner-social' | 'navigation' | 'coupons' | 'bulk-operations' | 'try-on' | 'tax' | 'footer' | 'ai-assistant' | 'gallery' | 'bill-customizer' | 'order-channels' | 'orders' | 'change-business' | 'settings' | 'features' | 'publish'>(
     (initialTab === 'change-business' ? 'change-business' : 'products') as any
   );
   const [isPublishing, setIsPublishing] = useState(false);
@@ -2949,6 +2950,21 @@ Users will now see the updated content.`;
           {activeTab === 'order-channels' && (
             <div className="space-y-6">
               <OrderChannelsManager />
+            </div>
+          )}
+
+          {activeTab === 'orders' && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 sm:p-8 text-white">
+                <div className="flex items-center gap-4 mb-3">
+                  <ShoppingCart className="w-8 h-8 sm:w-10 sm:h-10" />
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-bold">Orders Management</h2>
+                    <p className="text-orange-100 mt-1">Manage all orders from WhatsApp, Telegram, and Payment Gateway</p>
+                  </div>
+                </div>
+              </div>
+              <OrdersManagement />
             </div>
           )}
 
