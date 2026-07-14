@@ -2148,9 +2148,9 @@ Users will now see the updated content.`;
                       {formData.availableColors.map((color, index) => (
                         <div
                           key={index}
-                          className="bg-white border-2 border-pink-200 px-4 py-2 rounded-full flex items-center gap-2 group hover:border-pink-400 transition-colors"
+                          className="bg-gradient-to-r from-slate-700 to-slate-600 border-2 border-pink-500 px-4 py-2 rounded-full flex items-center gap-2 group hover:border-pink-400 transition-all duration-300 shadow-lg hover:shadow-pink-500/30 hover:scale-105"
                         >
-                          <span className="text-sm font-medium capitalize">{color}</span>
+                          <span className="text-sm font-medium capitalize text-pink-300">{color}</span>
                           <button
                             type="button"
                             onClick={() => {
@@ -2159,7 +2159,7 @@ Users will now see the updated content.`;
                                 availableColors: formData.availableColors.filter((_, i) => i !== index)
                               });
                             }}
-                            className="text-red-500 hover:text-red-700 transition-colors"
+                            className="text-pink-400 hover:text-pink-300 transition-colors"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -2172,7 +2172,7 @@ Users will now see the updated content.`;
 
               <button
                 type="submit"
-                className="w-full bg-teal-500 text-white py-4 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600 flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-4 rounded-xl font-bold transition-all duration-300 border-2 border-cyan-600 flex items-center justify-center gap-2 shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105"
               >
                 <Save className="w-5 h-5" />
                 {editingProduct ? 'Update Product' : 'Add Product'}
@@ -2187,32 +2187,32 @@ Users will now see the updated content.`;
                     placeholder="Search products by name or description..."
                     value={productSearch}
                     onChange={(e) => setProductSearch(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300 shadow-lg hover:shadow-cyan-500/20"
                   />
                 </div>
               )}
 
               {loading ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-600">Loading products...</p>
+                  <p className="text-slate-400">Loading products...</p>
                 </div>
               ) : products.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal-100 rounded-full mb-4">
-                    <Plus className="w-10 h-10 text-teal-600" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-cyan-500/10 border-2 border-cyan-500/30 rounded-full mb-4">
+                    <Plus className="w-10 h-10 text-cyan-400" />
                   </div>
-                  <p className="text-xl font-bold text-gray-900 mb-2">No products yet</p>
-                  <p className="text-gray-600">Start by adding your first product</p>
+                  <p className="text-xl font-bold text-white mb-2">No products yet</p>
+                  <p className="text-slate-400">Start by adding your first product</p>
                 </div>
               ) : filteredProducts.length === 0 ? (
                 <div className="text-center py-20">
-                  <p className="text-xl font-bold text-gray-900 mb-2">No products found</p>
-                  <p className="text-gray-600">Try a different search term</p>
+                  <p className="text-xl font-bold text-white mb-2">No products found</p>
+                  <p className="text-slate-400">Try a different search term</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredProducts.map((product) => (
-                    <div key={product.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-teal-200">
+                    <div key={product.id} className="bg-slate-700 rounded-2xl shadow-lg overflow-hidden border-2 border-slate-600 hover:border-cyan-500 transition-all duration-300 hover:shadow-cyan-500/30 hover:scale-105 transform">
                       <div className="relative">
                         <LazyImage
                           src={product.image_url}
@@ -2246,13 +2246,13 @@ Users will now see the updated content.`;
                         </div>
                       </div>
                       <div className="p-4 sm:p-6">
-                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{product.name}</h3>
-                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{product.name}</h3>
+                        <p className="text-slate-400 text-sm mb-3 line-clamp-2">{product.description}</p>
                         <div className="flex flex-wrap gap-1 mb-3">
                           {(product.category_ids && product.category_ids.length > 0 ? product.category_ids : (product.category_id ? [product.category_id] : [])).map(catId => {
                             const category = categories.find(c => c.id === catId);
                             return category ? (
-                              <span key={catId} className="bg-teal-100 text-teal-700 text-xs font-semibold px-2 py-1 rounded-full">
+                              <span key={catId} className="bg-cyan-500/20 text-cyan-300 text-xs font-semibold px-2 py-1 rounded-full border border-cyan-500/30">
                                 {category.name}
                               </span>
                             ) : null;
@@ -2260,24 +2260,24 @@ Users will now see the updated content.`;
                         </div>
                         <div className="flex items-center justify-between mb-4">
                           <div>
-                            <span className="text-xl sm:text-2xl font-bold text-gray-900">₹{product.price}</span>
+                            <span className="text-xl sm:text-2xl font-bold text-cyan-400">₹{product.price}</span>
                             {product.compare_at_price && product.compare_at_price > 0 && (
-                              <span className="text-sm text-gray-400 line-through ml-2">
+                              <span className="text-sm text-slate-500 line-through ml-2">
                                 ₹{product.compare_at_price}
                               </span>
                             )}
                           </div>
                         </div>
 
-                        <div className="mb-3 p-3 bg-gray-50 rounded-xl">
-                          <p className="text-xs font-semibold text-gray-600 mb-2">Quick Controls</p>
+                        <div className="mb-3 p-3 bg-slate-800 rounded-xl">
+                          <p className="text-xs font-semibold text-slate-400 mb-2">Quick Controls</p>
                           <div className="grid grid-cols-2 gap-2 mb-2">
                             <button
                               onClick={() => toggleProductFeatured(product)}
-                              className={`py-2 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
+                              className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 transform hover:scale-105 shadow-md hover:shadow-lg ${
                                 product.featured
-                                  ? 'bg-amber-500 text-white hover:bg-amber-600'
-                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                  ? 'bg-amber-500 text-white hover:bg-amber-600 hover:shadow-amber-500/50'
+                                  : 'bg-slate-600 text-slate-300 hover:bg-slate-500'
                               }`}
                             >
                               <Star className={`w-3.5 h-3.5 ${product.featured ? 'fill-white' : ''}`} />
@@ -2285,10 +2285,10 @@ Users will now see the updated content.`;
                             </button>
                             <button
                               onClick={() => toggleProductStock(product)}
-                              className={`py-2 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
+                              className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 transform hover:scale-105 shadow-md hover:shadow-lg ${
                                 product.in_stock
-                                  ? 'bg-green-500 text-white hover:bg-green-600'
-                                  : 'bg-red-500 text-white hover:bg-red-600'
+                                  ? 'bg-green-500 text-white hover:bg-green-600 hover:shadow-green-500/50'
+                                  : 'bg-red-600 text-white hover:bg-red-700 hover:shadow-red-500/50'
                               }`}
                             >
                               {product.in_stock ? (
@@ -2355,41 +2355,41 @@ Users will now see the updated content.`;
           {activeTab === 'categories' && (
             <>
               <div className="flex justify-end mb-6">
-                <button
-                  onClick={() => setShowCategoryForm(!showCategoryForm)}
-                  className="flex items-center gap-2 bg-teal-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600"
-                >
-                  {showCategoryForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-                  {showCategoryForm ? 'Cancel' : 'Add Category'}
-                </button>
-              </div>
+            <button
+              onClick={() => setShowCategoryForm(!showCategoryForm)}
+              className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 border-2 border-purple-600 shadow-lg hover:shadow-purple-500/50 transform hover:scale-105"
+            >
+              {showCategoryForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+              {showCategoryForm ? 'Cancel' : 'Add Category'}
+            </button>
+          </div>
 
-              {showCategoryForm && (
-                <form onSubmit={handleCategorySubmit} className="bg-teal-50 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-teal-200">
+          {showCategoryForm && (
+            <form onSubmit={handleCategorySubmit} className="bg-slate-700 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-slate-600 shadow-xl backdrop-blur-sm">
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
                     {editingCategory ? 'Edit Category' : 'Add New Category'}
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name</label>
-                      <input
-                        type="text"
-                        value={categoryFormData.name}
-                        onChange={(e) => setCategoryFormData({ ...categoryFormData, name: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        required
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Category Name</label>
+                    <input
+                      type="text"
+                      value={categoryFormData.name}
+                      onChange={(e) => setCategoryFormData({ ...categoryFormData, name: e.target.value })}
+                      className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                      required
+                    />
+                  </div>
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Description</label>
                     <textarea
                       value={categoryFormData.description}
                       onChange={(e) => setCategoryFormData({ ...categoryFormData, description: e.target.value })}
                       rows={3}
-                      className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                       required
                     />
                   </div>
@@ -2400,62 +2400,62 @@ Users will now see the updated content.`;
                       value={categoryFormData.image_url}
                       onChange={(url) => setCategoryFormData({ ...categoryFormData, image_url: url })}
                     />
-                    <p className="text-xs text-gray-500 mt-1">Optional - Leave blank to use default image</p>
+                    <p className="text-xs text-slate-400 mt-1">Optional - Leave blank to use default image</p>
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Background Color</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Background Color</label>
                     <div className="flex gap-3 items-center">
                       <input
                         type="color"
                         value={categoryFormData.bg_color}
                         onChange={(e) => setCategoryFormData({ ...categoryFormData, bg_color: e.target.value })}
-                        className="h-12 w-20 rounded-xl border-2 border-teal-200 cursor-pointer"
+                        className="h-12 w-20 rounded-xl border-2 border-slate-600 cursor-pointer"
                       />
                       <input
                         type="text"
                         value={categoryFormData.bg_color}
                         onChange={(e) => setCategoryFormData({ ...categoryFormData, bg_color: e.target.value })}
-                        className="flex-1 px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="flex-1 px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                         placeholder="#10b981"
                       />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">Choose a background color for featured category section</p>
+                    <p className="text-xs text-slate-400 mt-1">Choose a background color for featured category section</p>
                   </div>
 
                   <div className="mb-4">
-                    <label className="flex items-start gap-3 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                    <label className="flex items-start gap-3 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-purple-500 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
                       <input
                         type="checkbox"
                         checked={categoryFormData.featured}
                         onChange={(e) => setCategoryFormData({ ...categoryFormData, featured: e.target.checked })}
-                        className="w-5 h-5 text-teal-500 border-2 border-teal-200 rounded focus:ring-2 focus:ring-teal-500 mt-0.5"
+                        className="w-5 h-5 text-purple-500 border-2 border-slate-500 rounded focus:ring-2 focus:ring-purple-500 mt-0.5"
                       />
                       <div className="flex-1">
-                        <span className="text-sm font-semibold text-gray-700 block">Featured Category</span>
-                        <p className="text-xs text-gray-500 mt-1">Featured categories will be displayed on the home page</p>
+                        <span className="text-sm font-semibold text-slate-300 block">Featured Category</span>
+                        <p className="text-xs text-slate-400 mt-1">Featured categories will be displayed on the home page</p>
                       </div>
                     </label>
                   </div>
 
                   <div className="mb-4">
-                    <label className="flex items-start gap-3 cursor-pointer bg-white px-4 py-3 rounded-xl border-2 border-teal-200">
+                    <label className="flex items-start gap-3 cursor-pointer bg-slate-700 px-4 py-3 rounded-xl border-2 border-slate-600 hover:border-purple-500 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
                       <input
                         type="checkbox"
                         checked={categoryFormData.new_arrival}
                         onChange={(e) => setCategoryFormData({ ...categoryFormData, new_arrival: e.target.checked })}
-                        className="w-5 h-5 text-teal-500 border-2 border-teal-200 rounded focus:ring-2 focus:ring-teal-500 mt-0.5"
+                        className="w-5 h-5 text-purple-500 border-2 border-slate-500 rounded focus:ring-2 focus:ring-purple-500 mt-0.5"
                       />
                       <div className="flex-1">
-                        <span className="text-sm font-semibold text-gray-700 block">Best Selling</span>
-                        <p className="text-xs text-gray-500 mt-1">Mark categories as best selling to display them in the Best Selling section with live indicator</p>
+                        <span className="text-sm font-semibold text-slate-300 block">Best Selling</span>
+                        <p className="text-xs text-slate-400 mt-1">Mark categories as best selling to display them in the Best Selling section with live indicator</p>
                       </div>
                     </label>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-teal-500 text-white py-4 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600 flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white py-4 rounded-xl font-bold transition-all duration-300 border-2 border-purple-600 flex items-center justify-center gap-2 shadow-lg hover:shadow-purple-500/50"
                   >
                     <Save className="w-5 h-5" />
                     {editingCategory ? 'Update Category' : 'Add Category'}
@@ -2470,39 +2470,39 @@ Users will now see the updated content.`;
                     placeholder="Search categories by name..."
                     value={categorySearch}
                     onChange={(e) => setCategorySearch(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 shadow-lg hover:shadow-purple-500/20"
                   />
                 </div>
               )}
 
               {loading ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-600">Loading categories...</p>
+                  <p className="text-slate-400">Loading categories...</p>
                 </div>
               ) : categories.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal-100 rounded-full mb-4">
-                    <FolderOpen className="w-10 h-10 text-teal-600" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-purple-500/10 border-2 border-purple-500/30 rounded-full mb-4">
+                    <FolderOpen className="w-10 h-10 text-purple-400" />
                   </div>
-                  <p className="text-xl font-bold text-gray-900 mb-2">No categories yet</p>
-                  <p className="text-gray-600">Start by adding your first category</p>
+                  <p className="text-xl font-bold text-white mb-2">No categories yet</p>
+                  <p className="text-slate-400">Start by adding your first category</p>
                 </div>
               ) : filteredCategories.length === 0 ? (
                 <div className="text-center py-20">
-                  <p className="text-xl font-bold text-gray-900 mb-2">No categories found</p>
-                  <p className="text-gray-600">Try a different search term</p>
+                  <p className="text-xl font-bold text-white mb-2">No categories found</p>
+                  <p className="text-slate-400">Try a different search term</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredCategories.map((category) => (
-                    <div key={category.id} className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-teal-200">
+                    <div key={category.id} className="bg-slate-700 rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-slate-600 hover:border-purple-500 transition-all duration-300 hover:shadow-purple-500/30 hover:scale-105 transform">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <FolderOpen className="w-6 h-6 text-teal-600" />
+                        <div className="w-12 h-12 bg-purple-500/20 border border-purple-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <FolderOpen className="w-6 h-6 text-purple-400" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-900">{category.name}</h3>
+                            <h3 className="text-lg sm:text-xl font-bold text-white">{category.name}</h3>
                             {category.featured && (
                               <span className="px-2 py-1 bg-amber-500 text-white text-xs font-bold rounded-full flex items-center gap-1">
                                 <Star className="w-3 h-3 fill-white" />
@@ -2512,16 +2512,16 @@ Users will now see the updated content.`;
                           </div>
                         </div>
                       </div>
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">{category.description}</p>
+                      <p className="text-slate-400 text-sm mb-4 line-clamp-2">{category.description}</p>
 
-                      <div className="mb-3 p-3 bg-gray-50 rounded-xl">
-                        <p className="text-xs font-semibold text-gray-600 mb-2">Featured Control</p>
+                      <div className="mb-3 p-3 bg-slate-800 rounded-xl">
+                        <p className="text-xs font-semibold text-slate-400 mb-2">Featured Control</p>
                         <button
                           onClick={() => toggleCategoryFeatured(category)}
-                          className={`w-full py-2 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
+                          className={`w-full py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 transform hover:scale-105 shadow-md hover:shadow-lg ${
                             category.featured
-                              ? 'bg-amber-500 text-white hover:bg-amber-600'
-                              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              ? 'bg-amber-500 text-white hover:bg-amber-600 hover:shadow-amber-500/50'
+                              : 'bg-slate-600 text-slate-300 hover:bg-slate-500'
                           }`}
                         >
                           <Star className={`w-3.5 h-3.5 ${category.featured ? 'fill-white' : ''}`} />
@@ -2555,17 +2555,17 @@ Users will now see the updated content.`;
           {activeTab === 'offers' && (
             <>
               <div className="flex justify-end mb-6">
-                <button
-                  onClick={() => setShowOfferForm(!showOfferForm)}
-                  className="flex items-center gap-2 bg-teal-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600"
-                >
-                  {showOfferForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-                  {showOfferForm ? 'Cancel' : 'Add Offer'}
-                </button>
-              </div>
+            <button
+              onClick={() => setShowOfferForm(!showOfferForm)}
+              className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 border-2 border-orange-600 shadow-lg hover:shadow-orange-500/50 transform hover:scale-105"
+            >
+              {showOfferForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+              {showOfferForm ? 'Cancel' : 'Add Offer'}
+            </button>
+          </div>
 
-              {showOfferForm && (
-                <form onSubmit={handleOfferSubmit} className="bg-teal-50 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-teal-200">
+          {showOfferForm && (
+            <form onSubmit={handleOfferSubmit} className="bg-slate-700 rounded-2xl p-4 sm:p-6 mb-8 border-2 border-slate-600 shadow-xl backdrop-blur-sm">
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
                     {editingOffer ? 'Edit Offer' : 'Add New Offer'}
                   </h3>
