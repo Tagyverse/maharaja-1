@@ -1171,24 +1171,24 @@ Users will now see the updated content.`;
 
   if (!isAdminAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-mint-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl p-8 border-2 border-teal-300 max-w-md w-full">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 md:p-8">
+        <div className="bg-white rounded-2xl p-8 md:p-12 border border-gray-200 shadow-sm max-w-md w-full">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-100 rounded-full mb-4">
-              <Settings className="w-8 h-8 text-teal-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-xl mb-4">
+              <Settings className="w-8 h-8 text-indigo-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Admin Login</h2>
-            <p className="text-gray-600 text-sm">Enter your credentials to access the admin panel</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h2>
+            <p className="text-gray-500 text-sm">Authenticate to manage your store</p>
           </div>
 
-          <form onSubmit={handleAdminLogin} className="space-y-5">
+          <form onSubmit={handleAdminLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Admin ID</label>
               <input
                 type="text"
                 value={adminId}
                 onChange={(e) => setAdminId(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-teal-500 transition-colors"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                 placeholder="Enter admin ID"
                 required
               />
@@ -1201,14 +1201,14 @@ Users will now see the updated content.`;
                   type={showPassword ? 'text' : 'password'}
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-teal-500 transition-colors pr-12"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pr-10"
                   placeholder="Enter password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -1216,14 +1216,14 @@ Users will now see the updated content.`;
             </div>
 
             {loginError && (
-              <div className="bg-red-50 border-2 border-red-300 text-red-700 px-4 py-3 rounded-xl text-sm font-semibold">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm font-medium">
                 {loginError}
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full bg-teal-500 text-white py-3 rounded-xl font-bold hover:bg-teal-600 transition-colors border-2 border-teal-600"
+              className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Login
             </button>

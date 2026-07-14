@@ -3,16 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --brand-rgb: 220 38 38;
-  --brand-light-rgb: 254 202 202;
-  --brand-dark-rgb: 153 27 27;
-  --brand-soft-rgb: 252 233 233;
-  --brand-accent-rgb: 245 158 11;
+  /* Light Theme - Modern Admin Colors */
+  --brand-rgb: 79 70 229;
+  --brand-light-rgb: 238 242 255;
+  --brand-dark-rgb: 55 48 163;
+  --brand-soft-rgb: 224 242 254;
+  --brand-accent-rgb: 16 185 129;
+  
+  /* Admin-specific colors */
+  --admin-bg: 255 255 255;
+  --admin-surface: 249 250 251;
+  --admin-border: 229 231 235;
+  --admin-text: 17 24 39;
+  --admin-text-secondary: 107 114 128;
+  --admin-accent: 79 70 229;
+  --admin-accent-light: 224 231 255;
+  --admin-success: 34 197 94;
+  --admin-warning: 245 158 11;
+  --admin-error: 220 38 38;
 }
 
 @layer base {
   html {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
   }
 
   body {
@@ -21,16 +35,31 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
+    background-color: #ffffff;
+    color: #111827;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', sans-serif;
     font-weight: 800;
     letter-spacing: -0.03em;
+    color: #111827;
   }
 
   p, span, a, button, input, textarea, label, li {
     font-family: 'Inter', sans-serif;
+    color: #111827;
+  }
+
+  /* Light theme defaults */
+  input, textarea, select {
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+    color: #111827;
+  }
+
+  button {
+    transition: all 0.2s ease;
   }
 }
 
