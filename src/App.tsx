@@ -456,7 +456,7 @@ function AppContentInner() {
               <p className="leading-relaxed">{brand.policies.shipping.intro}</p>
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-2">Processing Time</h3>
-                <ul className="list-disc pl-5 space-y-1 text-sm"><li>All products are handmade and require time to prepare.</li><li>Orders are processed within 7 to 10 business days.</li><li>During peak seasons or sale days, processing may take a little longer.</li></ul>
+                <ul className="list-disc pl-5 space-y-1 text-sm"><li>All products are handmade and require time to prepare.</li><li>Orders are processed within 15 to 20 business days.</li><li>During peak seasons or sale days, processing may take a little longer.</li></ul>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-2">Shipping Time</h3>
