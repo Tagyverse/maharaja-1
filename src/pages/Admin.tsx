@@ -1236,16 +1236,16 @@ Users will now see the updated content.`;
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-4 sm:py-8 px-2 sm:px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8 border border-slate-700 backdrop-blur-sm bg-opacity-80 transition-all duration-300">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
-            <div>
-              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white mb-1 sm:mb-2">Admin Panel</h1>
+        <div className="bg-slate-800/40 rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-6 lg:p-8 mb-4 sm:mb-8 border border-slate-700/50 backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-slate-600/20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4 pb-4 border-b border-slate-700/50">
+            <div className="animate-fadeIn">
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">Admin Panel</h1>
               <p className="text-xs sm:text-base text-slate-400">Manage your products and categories</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
               <button
                 onClick={() => setShowPreviewModal(true)}
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-cyan-500/50 text-xs sm:text-sm transform hover:scale-105"
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-cyan-500/50 text-xs sm:text-sm transform hover:scale-105 active:scale-95"
               >
                 <Eye className="w-4 h-4" />
                 <span className="hidden sm:inline">Preview Changes</span>
@@ -1254,7 +1254,7 @@ Users will now see the updated content.`;
               <button
                 onClick={handlePublish}
                 disabled={isPublishing}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm transform hover:scale-105"
+                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm transform hover:scale-105 active:scale-95"
               >
                 {isPublishing ? (
                   <>
@@ -1321,7 +1321,7 @@ Users will now see the updated content.`;
                 setShowReviewForm(false);
                 setShowOfferForm(false);
               }}
-              className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-sm font-semibold text-white focus:outline-none focus:border-cyan-500 appearance-none transition-all duration-300 shadow-lg"
+              className="w-full px-4 py-3 border-2 border-slate-600 rounded-xl bg-slate-700 text-sm font-semibold text-white focus:outline-none focus:border-cyan-500 appearance-none transition-all duration-300 shadow-lg hover:border-slate-500 focus:ring-2 focus:ring-cyan-500/30"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
             >
               <option value="products">Products</option>
@@ -1349,8 +1349,7 @@ Users will now see the updated content.`;
             </select>
           </div>
 
-          {/* Desktop: Scrollable tab bar */}
-          <div className="hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-slate-700 overflow-x-auto pb-0">
+          {/* Desktop: Scrollable tab bar */}\n          <div className=\"hidden lg:flex gap-2 sm:gap-4 mb-8 border-b-2 border-gradient-to-r from-slate-700 via-slate-600 to-slate-700 overflow-x-auto pb-0\">
             <button
               onClick={() => {
                 setActiveTab('products');
